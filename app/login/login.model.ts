@@ -12,7 +12,12 @@ export default function useLoginModel() {
     },
   })
 
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+  }
+
   return {
     form,
+    onSubmit,
   }
 }

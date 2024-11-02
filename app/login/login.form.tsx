@@ -10,10 +10,10 @@ import { Button, Input } from '@/components/ui'
 import { LoginViewProps } from './login.type'
 
 export default function LoginForm(props: LoginViewProps) {
-  const { form } = props
+  const { form, onSubmit } = props
   return (
     <Form {...form}>
-      <form className="space-y-6 p-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-8">
         <FormField
           control={form.control}
           name="email"
