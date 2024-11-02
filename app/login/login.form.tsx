@@ -10,7 +10,7 @@ import { Button, Input } from '@/components/ui'
 import { LoginViewProps } from './login.type'
 
 export default function LoginForm(props: LoginViewProps) {
-  const { form, onSubmit } = props
+  const { form, onSubmit, isSubmitting } = props
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-8">
@@ -50,7 +50,7 @@ export default function LoginForm(props: LoginViewProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="h-12 w-full">
+        <Button isLoading={isSubmitting} type="submit" className="h-12 w-full">
           Entrar
         </Button>
       </form>

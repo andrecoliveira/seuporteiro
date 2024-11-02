@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { Form } from './login.type'
 import { formSchema } from './login.schema'
+import { login } from './login.action'
 
 export default function useLoginModel() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<Form>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
@@ -12,12 +13,15 @@ export default function useLoginModel() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  const { isSubmitting } = form.formState
+
+  async function onSubmit(values: Form) {
+    await login(values)
   }
 
   return {
     form,
     onSubmit,
+    isSubmitting,
   }
 }

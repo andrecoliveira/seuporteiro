@@ -1,5 +1,6 @@
 export const APP_ROUTES = {
   private: {
+    painel: '/painel',
     reservas: '/reservas',
   },
   public: {
