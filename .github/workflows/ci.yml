@@ -10,11 +10,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
-      - name: npm install & build
+      - name: Install dependencies and build
         run: |
-          npm install --legacy-peer-deps
-          npm run build
-      - name: run Lighthouse CI
+          yarn install --legacy-peer-deps
+          yarn run build
+      - name: Start server
         run: |
-          npm install -g @lhci/cli@0.14.x
+          PORT=3000 yarn start &
+      - name: Wait for server to be ready
+        run: sleep 10
+      - name: Run Lighthouse CI
+        run: |
+          yarn install -g @lhci/cli@0.14.x
           lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
