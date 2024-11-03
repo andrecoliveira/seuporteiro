@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lhci:mobile": "lhci autorun",
-    "lhci:desktop": "lhci autorun --collect.settings.preset=desktop"
+    "test:lighthouse": "npm run build && lhci autorun"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -34,6 +33,7 @@
   },
   "devDependencies": {
     "@lhci/cli": "^0.14.0",
+    "@lhci/server": "^0.14.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18.3.1",
