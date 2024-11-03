@@ -14,14 +14,9 @@ jobs:
         run: |
           npm install --legacy-peer-deps
           npm run build
-      - name: Start server
-        run: |
-          PORT=3000 yarn start &
-      - name: Wait for server to be ready
-        run: sleep 10
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli
-          lhci autorun
+          lhci autorun --url=http://localhost:3000
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
