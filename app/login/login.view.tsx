@@ -7,9 +7,9 @@ export default function LoginView(props: LoginViewProps) {
   return (
     <>
       <LoginForm {...props} />
-      <div className="sm:p-5">
+      <div className="mt-4 border-none sm:mt-0 sm:p-5">
         <Link href={APP_ROUTES.public.passwordRecovery}>
-          <button className="w-full cursor-pointer rounded-lg px-5 py-4 text-sm font-normal text-gray-500 ring-inset transition duration-200 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">
+          <button className="w-full cursor-pointer rounded-lg px-5 py-4 text-sm font-normal text-gray-500 ring-inset transition duration-200 hover:bg-gray-200 focus:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

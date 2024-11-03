@@ -13,7 +13,7 @@ export default function LoginForm(props: LoginViewProps) {
   const { form, onSubmit, isSubmitting } = props
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 p-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:p-5">
         <FormField
           control={form.control}
           name="email"

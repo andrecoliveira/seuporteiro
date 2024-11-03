@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '@/hooks/use-toast'
-
+import { messages, MessageKey } from './login.messages'
 import { useForm } from 'react-hook-form'
 import { Form } from './login.type'
 import { formSchema } from './login.schema'
@@ -18,12 +18,11 @@ export default function useLoginModel() {
   })
 
   async function onSubmit(values: Form) {
-    const { error } = await login(values)
-    if (error.code === 'invalid_credentials') {
+    const errorCode = await login(values)
+    if (errorCode) {
       toast({
+        ...messages[errorCode as MessageKey],
         variant: 'destructive',
-        title: 'Credenciais inválidas',
-        description: 'Verifique seu e-mail ou senha e tente novamente',
       })
     }
   }
