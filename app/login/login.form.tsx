@@ -6,7 +6,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Button, Input } from '@/components/ui'
+import { Button, InputPassword, Input } from '@/components/ui'
 import { LoginViewProps } from './login.type'
 
 export default function LoginForm(props: LoginViewProps) {
@@ -39,7 +39,7 @@ export default function LoginForm(props: LoginViewProps) {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input
+                <InputPassword
                   {...field}
                   placeholder="••••••••"
                   className="h-12"
