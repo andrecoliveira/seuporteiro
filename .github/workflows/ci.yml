@@ -10,9 +10,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - name: npm install, build
+      - name: npm install & build
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
       - name: run Lighthouse CI
         run: |
