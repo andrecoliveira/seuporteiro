@@ -27,7 +27,7 @@ jobs:
         run: npm install -g pnpm
       #INSTALL DEPENDENCIES
       - name: Install dependencies
-        run: pnpm install --legacy-peer-deps
+        run: pnpm install --strict-peer-dependencies=false
       #INSTALL VERCEL CLI IN SERVER.
       - name: Install Vercel CLI
         run: pnpm install --global vercel@latest
