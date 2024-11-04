@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --strict-peer-dependencies=false
       #INSTALL VERCEL CLI IN SERVER.
       - name: Install Vercel CLI
-        run: pnpm install --global vercel@latest
+        run: npm install --global vercel@latest
       #SET ENVIRONMENT IN VERCEL. 
       #CREATE ENVIRONMENT IN VERCEL & BUILD IN VERCEL.
       # GITHUB.COM > SETTINGS > SECRETS AND VARIABLES > ACTIONS > ENVRIONEMENT SECRETS.
