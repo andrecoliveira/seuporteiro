@@ -5,7 +5,7 @@ export const APP_ROUTES = {
   },
   public: {
     home: '/',
-    login: '/login',
+    signIn: '/entrar',
     passwordRecovery: '/login/recuperar-senha',
     redefinirSenha: '/redefinir-senha',
     createAccount: '/cadastro',

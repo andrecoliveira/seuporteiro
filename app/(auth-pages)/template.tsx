@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+
 import { logotipo } from '@/images'
 
 export default async function Template({

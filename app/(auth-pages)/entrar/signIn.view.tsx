@@ -1,12 +1,38 @@
 import Link from 'next/link'
-import { APP_ROUTES } from '@/app/constants'
-import LoginForm from './login.form'
-import { LoginViewProps } from './login.type'
 
-export default function LoginView(props: LoginViewProps) {
+import { InputPassword, SubmitButton } from '@/components'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+import { APP_ROUTES } from '@/app/constants'
+
+import { signInAction } from '../actions'
+
+export default function LoginView() {
   return (
     <>
-      <LoginForm {...props} />
+      <form className="space-y-6 sm:p-5">
+        <div>
+          <Label htmlFor="email">E-mail</Label>
+          <Input
+            name="email"
+            placeholder="joao@exemplo.com"
+            className="h-14"
+            required
+          />
+        </div>
+        <div>
+          <Label htmlFor="password">Senha</Label>
+          <InputPassword
+            placeholder="••••••••"
+            className="h-14"
+            type="password"
+          />
+        </div>
+        <SubmitButton formAction={signInAction} className="h-12 w-full">
+          Entrar
+        </SubmitButton>
+      </form>
       <div className="mt-4 border-none sm:mt-0 sm:p-5">
         <Link href={APP_ROUTES.public.passwordRecovery}>
           <button className="w-full cursor-pointer rounded-lg px-5 py-4 text-sm font-normal text-gray-500 ring-inset transition duration-200 hover:bg-gray-200 focus:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50">
