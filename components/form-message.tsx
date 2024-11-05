@@ -3,7 +3,12 @@ export type Message =
   | { error: string }
   | { message: string }
 
-export function FormMessage({ message }: { message: Message }) {
+interface FormMessageProps {
+  message: Message
+  translations: Record<string, { description: string }>
+}
+
+export function FormMessage({ message, translations }: FormMessageProps) {
   return (
     <>
       {'success' in message && (
@@ -13,10 +18,10 @@ export function FormMessage({ message }: { message: Message }) {
       )}
       {'error' in message && (
         <div
-          className="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-800 dark:bg-gray-800 dark:text-red-400"
+          className="rounded-lg bg-red-50 p-4 text-sm text-red-800"
           role="alert"
         >
-          {message.error}
+          {translations[message.error]?.description || message.error}
         </div>
       )}
       {'message' in message && (

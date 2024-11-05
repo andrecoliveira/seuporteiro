@@ -8,6 +8,8 @@ import { Input, Label } from '@/components/ui'
 
 import { APP_ROUTES } from '@/app/constants'
 
+import { messages } from '../messages'
+
 export default async function SignInPage(props: {
   searchParams: Promise<Message>
 }) {
@@ -15,7 +17,7 @@ export default async function SignInPage(props: {
   return (
     <>
       <form className="space-y-6 sm:p-5">
-        <FormMessage message={searchParams} />
+        <FormMessage message={searchParams} translations={messages} />
         <div>
           <Label htmlFor="email">E-mail</Label>
           <Input
@@ -28,6 +30,7 @@ export default async function SignInPage(props: {
         <div>
           <Label htmlFor="password">Senha</Label>
           <InputPassword
+            name="password"
             placeholder="••••••••"
             className="h-14"
             type="password"
