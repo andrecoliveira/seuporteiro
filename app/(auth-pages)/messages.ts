@@ -1,32 +1,43 @@
 export const messages = {
   invalid_credentials: {
-    description: 'Verifique seu e-mail ou senha e tente novamente',
+    title: 'Credenciais Inválidas',
+    description: 'Revise suas credenciais e tente novamente.',
   },
   email_exists: {
-    description: 'Este e-mail já está sendo utilizado',
+    title: 'E-mail já Cadastrado',
+    description: 'Este e-mail já está em uso. Tente usar outro e-mail.',
   },
   unexpected_failure: {
-    description: 'Ocorreu um erro inesperado, tente novamente mais tarde',
+    title: 'Erro Inesperado',
+    description: 'Ocorreu um erro inesperado. Tente novamente mais tarde.',
   },
   validation_failed: {
-    description: 'Ocorreu um erro de validação, tente novamente mais tarde',
+    title: 'Erro de Validação',
+    description: 'Alguns campos estão inválidos. Verifique e tente novamente.',
   },
   no_authorization: {
-    description: 'Você não tem autorização para realizar esta ação',
+    title: 'Acesso Negado',
+    description: 'Você não tem autorização para realizar esta ação.',
   },
   invite_not_found: {
-    description: 'O convite não foi encontrado',
+    title: 'Convite Não Encontrado',
+    description: 'O convite que você tentou acessar não foi encontrado.',
   },
   email_not_confirmed: {
-    description: 'O e-mail utilizado ainda não foi confirmado',
+    title: 'E-mail Não Confirmado',
+    description: 'Confirme seu e-mail antes de prosseguir.',
   },
   user_already_exists: {
-    description: 'Este usuário já está sendo utilizado',
+    title: 'Usuário Já Existe',
+    description: 'Já existe um usuário cadastrado com estas informações.',
   },
   otp_expired: {
-    description: 'O código de verificação expirou',
+    title: 'Código Expirado',
+    description: 'O código de verificação expirou. Solicite um novo código.',
   },
   weak_password: {
-    description: 'A senha é muito fraca',
+    title: 'Senha Fraca',
+    description:
+      'A senha deve ser mais forte. Tente incluir letras, números e símbolos.',
   },
 }

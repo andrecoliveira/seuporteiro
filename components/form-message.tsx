@@ -1,32 +1,39 @@
-export type Message =
-  | { success: string }
-  | { error: string }
-  | { message: string }
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 
 interface FormMessageProps {
-  message: Message
-  translations: Record<string, { description: string }>
+  translations: Record<string, { title: string; description: string }>
 }
 
-export function FormMessage({ message, translations }: FormMessageProps) {
-  return (
-    <>
-      {'success' in message && (
-        <div className="border-l-2 border-foreground px-4 text-foreground">
-          {message.success}
-        </div>
-      )}
-      {'error' in message && (
-        <div
-          className="rounded-lg bg-red-50 p-4 text-sm text-red-800"
-          role="alert"
-        >
-          {translations[message.error]?.description || message.error}
-        </div>
-      )}
-      {'message' in message && (
-        <div className="border-l-2 px-4 text-foreground">{message.message}</div>
-      )}
-    </>
-  )
+export function FormMessage({ translations }: FormMessageProps) {
+  const searchParams = useSearchParams()
+  const success = searchParams.get('success')
+  const error = searchParams.get('error')
+  const messageParam = searchParams.get('message')
+
+  if (success) {
+    return (
+      <div className="border-l-2 border-foreground px-4 text-foreground">
+        {success}
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        <AlertTitle>{translations[error]?.title}</AlertTitle>
+        <AlertDescription>
+          {translations[error]?.description || error}
+        </AlertDescription>
+      </Alert>
+    )
+  }
+
+  return <div className="border-l-2 px-4 text-foreground">{messageParam}</div>
 }
