@@ -49,7 +49,7 @@ export const signInAction = async (formData: FormData) => {
   })
 
   if (error) {
-    return encodedRedirect('error', APP_ROUTES.public.signIn, error.message)
+    return encodedRedirect('error', APP_ROUTES.public.signIn, error.code)
   }
 
   return redirect(APP_ROUTES.private.painel)

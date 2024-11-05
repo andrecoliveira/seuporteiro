@@ -5,7 +5,7 @@ export type Message = {
   description: string
 }
 
-const messages = {
+export const messages = {
   invalid_credentials: {
     title: 'Credenciais inválidas',
     description: 'Verifique seu e-mail ou senha e tente novamente',
@@ -47,5 +47,3 @@ const messages = {
     description: 'A senha é muito fraca',
   },
 }
-
-export { messages }

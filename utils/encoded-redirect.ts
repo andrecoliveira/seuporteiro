@@ -10,7 +10,8 @@ import { redirect } from 'next/navigation'
 export function encodedRedirect(
   type: 'error' | 'success',
   path: string,
-  message: string,
+  message: string | undefined,
 ): never {
+  if (!message) return redirect(path)
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`)
 }
