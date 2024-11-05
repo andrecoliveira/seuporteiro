@@ -1,175 +1,103 @@
 'use client'
 
+import Image from 'next/image'
 import * as React from 'react'
 
-import { NavMain } from '@/components/nav-main'
 import { NavProjects } from '@/components/nav-projects'
+import { NavSecondary } from '@/components/nav-secondary'
 import { NavUser } from '@/components/nav-user'
-import { TeamSwitcher } from '@/components/team-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
 } from '@/components/ui/sidebar'
+import { logotipo } from '@/images'
 import {
-  AudioWaveform,
+  LifeBuoy,
   BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
+  Store,
+  NotepadText,
+  Calendar,
+  MessageCircleMore,
   PieChart,
-  Settings2,
-  SquareTerminal,
+  Send,
+  House,
 } from 'lucide-react'
 
-// This is sample data.
 const data = {
   user: {
     name: 'shadcn',
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg',
   },
-  teams: [
+  navSecondary: [
     {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
-  navMain: [
-    {
-      title: 'Playground',
+      title: 'Suporte',
       url: '#',
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
+      icon: LifeBuoy,
     },
     {
-      title: 'Models',
+      title: 'Feedback',
       url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
+      icon: Send,
     },
   ],
   projects: [
     {
-      name: 'Design Engineering',
+      name: 'Início',
       url: '#',
-      icon: Frame,
+      icon: House,
     },
     {
-      name: 'Sales & Marketing',
+      name: 'Perfil da loja',
+      url: '#',
+      icon: Store,
+    },
+    {
+      name: 'Cardápio',
+      url: '#',
+      icon: BookOpen,
+    },
+    {
+      name: 'Reservas',
+      url: '#',
+      icon: NotepadText,
+    },
+    {
+      name: 'Agendamentos',
+      url: '#',
+      icon: Calendar,
+    },
+    {
+      name: 'Mensagens',
+      url: '#',
+      icon: MessageCircleMore,
+    },
+    {
+      name: 'Análises',
       url: '#',
       icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+    <Sidebar variant="inset" {...props}>
+      <SidebarHeader className="mb-4 mt-2 flex items-center">
+        <a href="#">
+          <Image src={logotipo} alt="Logo" width={200} priority />
+        </a>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        {/* <NavMain items={data.navMain} /> */}
         <NavProjects projects={data.projects} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   )
 }
