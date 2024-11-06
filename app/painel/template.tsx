@@ -18,7 +18,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="pb-8">
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
@@ -38,7 +38,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
             </Breadcrumb>
           </div>
         </header>
-        <div className="mx-28 mt-4">{children}</div>
+        <div className="mx-6 mt-4 sm:mx-12">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   )
