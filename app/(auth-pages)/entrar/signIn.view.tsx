@@ -14,7 +14,10 @@ type LoginViewProps = ReturnType<typeof useSignInModel>
 
 export default function SignInPage(props: LoginViewProps) {
   return (
-    <form className="space-y-6 sm:p-5" onSubmit={props.handleSubmit}>
+    <form
+      className="space-y-6 px-4 py-6 sm:px-10 sm:py-8"
+      onSubmit={props.handleSubmit}
+    >
       <h4 className="text-xl font-semibold tracking-tight text-gray-700">
         Entre na sua conta
       </h4>

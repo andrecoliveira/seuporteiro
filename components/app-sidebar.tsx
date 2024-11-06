@@ -25,6 +25,8 @@ import {
   House,
 } from 'lucide-react'
 
+import { APP_ROUTES } from '@/app/constants'
+
 const data = {
   user: {
     name: 'shadcn',
@@ -50,8 +52,8 @@ const data = {
       icon: House,
     },
     {
-      name: 'Perfil da loja',
-      url: '#',
+      name: 'Restaurante',
+      url: APP_ROUTES.private.restaurant,
       icon: Store,
     },
     {
