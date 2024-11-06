@@ -1,7 +1,6 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
@@ -26,15 +25,13 @@ export function FormMessage({ translations }: FormMessageProps) {
 
   if (error) {
     return (
-      <Suspense fallback={<div>Carregando...</div>}>
-        <Alert variant="destructive">
-          <ExclamationTriangleIcon className="h-4 w-4" />
-          <AlertTitle>{translations[error]?.title}</AlertTitle>
-          <AlertDescription>
-            {translations[error]?.description || error}
-          </AlertDescription>
-        </Alert>
-      </Suspense>
+      <Alert variant="destructive">
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        <AlertTitle>{translations[error]?.title}</AlertTitle>
+        <AlertDescription>
+          {translations[error]?.description || error}
+        </AlertDescription>
+      </Alert>
     )
   }
 
