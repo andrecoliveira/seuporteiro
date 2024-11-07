@@ -22,7 +22,7 @@ export default function SignInPage(props: LoginViewProps) {
         Entre na sua conta
       </h4>
       <FormMessage translations={messages} />
-      <div className="space-y-3">
+      <div className="space-y-1">
         <Label htmlFor="email">E-mail</Label>
         <Input
           name="email"
@@ -31,7 +31,7 @@ export default function SignInPage(props: LoginViewProps) {
           required
         />
       </div>
-      <div className="space-y-3">
+      <div className="space-y-1">
         <div className="flex justify-between">
           <Label htmlFor="password">Senha</Label>
           <Link
