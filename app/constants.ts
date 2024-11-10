@@ -7,6 +7,7 @@ export const APP_ROUTES = {
   public: {
     home: '/',
     signIn: '/entrar',
+    signUp: '/cadastro',
     reset: '/redefinir-senha',
     redefinirSenha: '/redefinir-senha',
     createAccount: '/cadastro',

@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import { logotipo } from '@/images'
 
+import { APP_ROUTES } from '@/app/constants'
+
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col justify-center bg-gray-100 sm:min-h-screen">
@@ -16,8 +18,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <span className="text-sm font-normal text-gray-500">
               Não possui conta?{' '}
               <Link
-                href="#"
-                className="text-red-layout transition-colors hover:text-black"
+                href={APP_ROUTES.public.signUp}
+                className="font-bold text-red-layout transition-colors hover:text-black"
               >
                 Criar uma conta
               </Link>
