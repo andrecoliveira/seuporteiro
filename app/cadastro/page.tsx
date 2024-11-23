@@ -1,13 +1,15 @@
-import { SubmitButton } from '@/components/submit-button'
+'use client'
 
-import StepOne from './steps/step-one'
-// import StepTwo from './steps/step-two'
+import { Suspense } from 'react'
+
+import useSignUpModel from './signUp.model'
+import SignUpPage from './signUp.view'
 
 export default function Page() {
+  const methods = useSignUpModel()
   return (
-    <form>
-      <StepOne />
-      <SubmitButton className="mt-8 h-12 w-full">Continuar</SubmitButton>
-    </form>
+    <Suspense fallback={<div>Carregando...</div>}>
+      <SignUpPage {...methods} />
+    </Suspense>
   )
 }

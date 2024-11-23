@@ -7,7 +7,6 @@ import SignInPage from './signIn.view'
 
 export default function Page() {
   const methods = useSignInModel()
-
   return (
     <Suspense fallback={<div>Carregando...</div>}>
       <SignInPage {...methods} />

@@ -6,7 +6,6 @@ export default function useSignInModel() {
     const formData = new FormData(e.currentTarget)
     await signInAction(formData)
   }
-
   return {
     handleSubmit,
   }

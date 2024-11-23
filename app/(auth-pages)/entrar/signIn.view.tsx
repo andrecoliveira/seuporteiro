@@ -10,9 +10,9 @@ import { APP_ROUTES } from '@/app/constants'
 import { messages } from '../messages'
 import useSignInModel from './signIn.model'
 
-type LoginViewProps = ReturnType<typeof useSignInModel>
+type SignInViewProps = ReturnType<typeof useSignInModel>
 
-export default function SignInPage(props: LoginViewProps) {
+export default function SignInPage(props: SignInViewProps) {
   return (
     <form
       className="space-y-6 px-4 py-6 sm:px-10 sm:py-8"

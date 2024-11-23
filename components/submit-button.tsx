@@ -1,11 +1,8 @@
-'use client'
-
 import { type ComponentProps } from 'react'
-import { useFormStatus } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
 
-type Props = ComponentProps<typeof Button>
+type Props = ComponentProps<typeof Button> & { isLoading: boolean }
 
 const loadingSvg = (
   <svg
@@ -36,12 +33,10 @@ const loadingSvg = (
   </svg>
 )
 
-export function SubmitButton({ children, ...props }: Props) {
-  const { pending } = useFormStatus()
-
+export function SubmitButton({ children, isLoading, ...props }: Props) {
   return (
-    <Button type="submit" aria-disabled={pending} {...props}>
-      {pending ? loadingSvg : children}
+    <Button type="submit" aria-disabled={isLoading} {...props}>
+      {isLoading ? loadingSvg : children}
     </Button>
   )
 }
