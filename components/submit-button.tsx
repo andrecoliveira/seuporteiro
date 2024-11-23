@@ -1,8 +1,9 @@
 import { type ComponentProps } from 'react'
+import { useFormStatus } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
 
-type Props = ComponentProps<typeof Button> & { isLoading: boolean }
+type Props = ComponentProps<typeof Button> & { isLoading?: boolean }
 
 const loadingSvg = (
   <svg
@@ -34,9 +35,10 @@ const loadingSvg = (
 )
 
 export function SubmitButton({ children, isLoading, ...props }: Props) {
+  const { pending } = useFormStatus()
   return (
     <Button type="submit" aria-disabled={isLoading} {...props}>
-      {isLoading ? loadingSvg : children}
+      {pending || isLoading ? loadingSvg : children}
     </Button>
   )
 }
