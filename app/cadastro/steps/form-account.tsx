@@ -11,7 +11,7 @@ export default function FormAccount(props: SignUpViewProps) {
     <>
       <div className="space-y-1">
         <span className="text-xs">
-          PASSO <strong>2</strong> DE <strong>4</strong>
+          PASSO <strong>2</strong> DE <strong>3</strong>
         </span>
         <h4 className="text-xl font-semibold tracking-tight text-gray-700">
           Responsável pela loja

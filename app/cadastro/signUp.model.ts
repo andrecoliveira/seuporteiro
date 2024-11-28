@@ -13,7 +13,7 @@ import {
 
 import { HTTP_STATUSCODE } from '../constants'
 
-import { informationAlreadyExists } from './actions'
+import { informationAlreadyExists, signUp } from './actions'
 import {
   informationSchema,
   Steps,
@@ -38,7 +38,7 @@ export default function useSignUpModel() {
   })
 
   const { cnpj, pathname, name } = informationForm.watch()
-  const { password } = accountForm.getValues()
+  const password = accountForm.watch('password')
 
   const errors = useMemo(
     () => ({
@@ -81,7 +81,10 @@ export default function useSignUpModel() {
     }
   }
 
-  const handleAccountFormSubmit = () => {}
+  const handleAccountFormSubmit = async () => {
+    const { error } = await signUp(accountForm.getValues())
+    if (!error) setStep(Steps.OTPCodeValidation)
+  }
 
   const handleOtpCodeFormSubmit = () => {}
 

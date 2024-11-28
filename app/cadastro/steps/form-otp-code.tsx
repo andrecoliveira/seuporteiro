@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui'
+import { SubmitButton } from '@/components/submit-button'
 import {
   Form,
   FormControl,
@@ -21,8 +21,8 @@ export default function FormOtpCode(props: SignUpViewProps) {
   return (
     <>
       <div className="space-y-1">
-        <span>
-          PASSO <strong>3</strong> DE <strong>4</strong>
+        <span className="text-xs">
+          PASSO <strong>3</strong> DE <strong>3</strong>
         </span>
         <h4 className="text-xl font-semibold tracking-tight text-gray-700">
           Confirme seu e-mail
@@ -31,38 +31,39 @@ export default function FormOtpCode(props: SignUpViewProps) {
           Digite o código de validação que enviamos para o e-mail:
         </p>
       </div>
-      <Form {...otpCodeForm}>
-        <form
-          onSubmit={otpCodeForm.handleSubmit(handleOtpCodeFormSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <FormField
-            control={otpCodeForm.control}
-            name="otpCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>email aqui</FormLabel>
-                <FormControl>
-                  <InputOTP maxLength={6} {...field}>
-                    <InputOTPGroup>
-                      <InputOTPSlot index={0} />
-                      <InputOTPSlot index={1} />
-                      <InputOTPSlot index={2} />
-                      <InputOTPSlot index={3} />
-                      <InputOTPSlot index={4} />
-                      <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                  </InputOTP>
-                </FormControl>
-                <FormDescription>Não recebeu o código?</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
+      <div className="flex justify-center">
+        <Form {...otpCodeForm}>
+          <form
+            onSubmit={otpCodeForm.handleSubmit(handleOtpCodeFormSubmit)}
+            className="flex flex-col items-center space-y-12"
+          >
+            <FormField
+              control={otpCodeForm.control}
+              name="otpCode"
+              render={({ field }) => (
+                <FormItem className="flex flex-col justify-center space-y-4">
+                  <FormLabel>{props.accountForm.watch('email')}</FormLabel>
+                  <FormControl>
+                    <InputOTP maxLength={6} {...field}>
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} className="h-14 w-12 text-lg" />
+                        <InputOTPSlot index={1} className="h-14 w-12 text-lg" />
+                        <InputOTPSlot index={2} className="h-14 w-12 text-lg" />
+                        <InputOTPSlot index={3} className="h-14 w-12 text-lg" />
+                        <InputOTPSlot index={4} className="h-14 w-12 text-lg" />
+                        <InputOTPSlot index={5} className="h-14 w-12 text-lg" />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormDescription>Não recebeu o código?</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <SubmitButton className="h-12 w-full">Validar</SubmitButton>
+          </form>
+        </Form>
+      </div>
     </>
   )
 }

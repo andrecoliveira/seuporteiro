@@ -17,6 +17,5 @@ export default function SignUpPage(props: SignUpViewProps) {
         return null
     }
   }
-
-  return stepContent(Steps.Information)
+  return stepContent(props.step)
 }
