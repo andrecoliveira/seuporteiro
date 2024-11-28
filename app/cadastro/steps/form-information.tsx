@@ -9,10 +9,21 @@ import { APP_ROUTES } from '@/app/constants'
 
 import { SignUpViewProps } from '../signUp.types'
 
-export default function RestaurantInformation(props: SignUpViewProps) {
+export default function FormInformation(props: SignUpViewProps) {
   const { informationForm, handleInfoFormSubmit } = props
   return (
     <>
+      <div className="space-y-1">
+        <span className="text-xs">
+          PASSO <strong>1</strong> DE <strong>4</strong>
+        </span>
+        <h4 className="text-xl font-semibold tracking-tight text-gray-700">
+          Informações da loja
+        </h4>
+        <p className="text-sm text-gray-500">
+          Preencha com os dados do seu negócio
+        </p>
+      </div>
       <form onSubmit={informationForm.handleSubmit(handleInfoFormSubmit)}>
         <div className="space-y-4">
           <div className="space-y-1">

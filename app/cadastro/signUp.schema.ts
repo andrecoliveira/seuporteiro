@@ -7,7 +7,8 @@ export enum Steps {
   Information = 1,
   Account = 2,
   OTPCodeValidation = 3,
-  Confirmed = 4,
+  Plans = 4,
+  Confirmed = 5,
 }
 
 export const emailSchema = z.object({

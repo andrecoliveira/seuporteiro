@@ -81,14 +81,17 @@ export default function useSignUpModel() {
     }
   }
 
-  const handleSubmit = () => {}
+  const handleAccountFormSubmit = () => {}
+
+  const handleOtpCodeFormSubmit = () => {}
 
   return {
     informationForm,
     accountForm,
     otpCodeForm,
     handleInfoFormSubmit,
-    handleSubmit,
+    handleAccountFormSubmit,
+    handleOtpCodeFormSubmit,
     step,
     validation: {
       hasNumber: validateContainsNumber(password || ''),

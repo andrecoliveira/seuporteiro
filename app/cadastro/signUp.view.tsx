@@ -1,19 +1,22 @@
 import { Steps } from './signUp.schema'
 import { SignUpViewProps } from './signUp.types'
-import RestaurantAccount from './steps/restaurant-account'
-import RestaurantInformation from './steps/restaurant-information'
+import FormAccount from './steps/form-account'
+import FormInformation from './steps/form-information'
+import FormOtpCode from './steps/form-otp-code'
 
 export default function SignUpPage(props: SignUpViewProps) {
   function stepContent(step: number) {
     switch (step) {
       case Steps.Information:
-        return <RestaurantInformation {...props} />
+        return <FormInformation {...props} />
       case Steps.Account:
-        return <RestaurantAccount {...props} />
+        return <FormAccount {...props} />
+      case Steps.OTPCodeValidation:
+        return <FormOtpCode {...props} />
       default:
         return null
     }
   }
 
-  return stepContent(props.step)
+  return stepContent(Steps.Information)
 }

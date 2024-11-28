@@ -9,14 +9,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <div className="mb-10 flex justify-center px-10">
           <Image src={logotipo} alt="Logo" width={300} priority />
         </div>
-        <div className="space-y-1">
-          <h4 className="text-xl font-semibold tracking-tight text-gray-700">
-            Faça seu cadastro
-          </h4>
-          <p className="text-sm text-gray-500">
-            Preencha com os dados do seu negócio
-          </p>
-        </div>
         {children}
       </div>
       <div className="hidden content-center bg-red-layout px-24 lg:block">
