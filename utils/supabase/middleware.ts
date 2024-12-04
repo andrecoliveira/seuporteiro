@@ -1,5 +1,7 @@
-import { createServerClient } from '@supabase/ssr'
 import { type NextRequest, NextResponse } from 'next/server'
+
+import { createServerClient } from '@supabase/ssr'
+
 import { APP_ROUTES } from '@/app/constants'
 
 export const updateSession = async (request: NextRequest) => {
@@ -40,7 +42,7 @@ export const updateSession = async (request: NextRequest) => {
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     const user = await supabase.auth.getUser()
 
-    // protected routes
+    // public routes
     if (
       request.nextUrl.pathname.startsWith(APP_ROUTES.private.painel) &&
       user.error
@@ -50,6 +52,13 @@ export const updateSession = async (request: NextRequest) => {
       )
     }
 
+    if (request.nextUrl.pathname === '/' && user.error) {
+      return NextResponse.redirect(
+        new URL(APP_ROUTES.public.signIn, request.url),
+      )
+    }
+
+    // private routes
     if (request.nextUrl.pathname === '/' && !user.error) {
       return NextResponse.redirect(
         new URL(APP_ROUTES.private.painel, request.url),
