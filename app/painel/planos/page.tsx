@@ -1,7 +1,6 @@
 import Image from 'next/image'
 
 import { signOutAction } from '@/app/(auth-pages)/actions'
-import { Button } from '@/components/ui'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -13,35 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { logo } from '@/images'
 import { CircleUser, LogOut } from 'lucide-react'
-
-const plans = [
-  {
-    title: 'Básico',
-    describe: 'Basic features for Individuals and organizations',
-    price: '59,90',
-    features: [
-      'Unlimited file storage',
-      '10 GB bandwidth per month',
-      '10.000 tasks per month',
-      'Email support',
-      '100 Webhooks',
-    ],
-    link: '#',
-  },
-  {
-    title: 'Avançado',
-    describe: 'Avanced feaures for Individuals and organizations',
-    price: '259,90',
-    features: [
-      'Unlimited file storage',
-      '10 GB bandwidth per month',
-      '10.000 tasks per month',
-      'Email support',
-      '100 Webhooks ',
-    ],
-    link: '#',
-  },
-]
 
 export default function PlansPage() {
   return (
@@ -107,56 +77,15 @@ export default function PlansPage() {
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
           <div className="mx-auto mt-8 max-w-screen-md px-4 md:px-8">
-            <div className="mb-6 grid gap-6 sm:grid-cols-2 md:mb-8 lg:gap-8">
-              {plans.map((plan) => (
-                <div
-                  key={plan.title}
-                  className="relative flex flex-col rounded-lg border-2 border-red-layout p-4 pt-6"
-                >
-                  <div className="mb-12">
-                    <div className="mb-2 text-center text-2xl font-bold">
-                      {plan.title}
-                    </div>
-
-                    <p className="mx-auto mb-8 px-8 text-center text-neutral-400">
-                      {plan.describe}
-                    </p>
-
-                    <div className="flex items-end justify-center gap-1">
-                      <span className="self-start">R$</span>
-                      <span className="text-4xl font-bold">{plan.price}</span>
-                      <span>mês</span>
-                    </div>
-
-                    <div className="mt-10 space-y-2">
-                      {plan.features.map((feature) => (
-                        <div key={feature} className="flex gap-2">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 shrink-0 text-red-layout"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M5 13l4 4L19 7"
-                            />
-                          </svg>
-                          <span className="text-white">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mt-auto flex flex-col gap-8">
-                    <Button className="h-14">Assinar</Button>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <script
+              async
+              src="https://js.stripe.com/v3/pricing-table.js"
+            ></script>
+            <stripe-pricing-table
+              customer-email="coliveira.andre@gmail.com"
+              pricing-table-id="prctbl_1QRhbwIrMpsLhs7jyIq6vfuD"
+              publishable-key="pk_test_51Ns3UPIrMpsLhs7jBsA1u5TvYsBwoC9OneVOIJq3JbZF8BkbgcssfJsYbc9MHWwnmS0XtG6BeJuZ7N3eQZQ4J5rL00Pd5ArrGn"
+            ></stripe-pricing-table>
             <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
           </div>
         </div>
