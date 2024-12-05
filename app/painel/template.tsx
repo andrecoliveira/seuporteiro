@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation'
+
 import { AppSidebar } from '@/components/app-sidebar'
 import {
   Breadcrumb,
@@ -13,11 +15,25 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { SessionProvider } from '@/hooks/use-session'
 
-export default function Page({ children }: { children: React.ReactNode }) {
+import { createClient } from '@/utils/supabase/server'
+
+export default async function Page({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) return redirect('/')
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <SessionProvider session={user}>
+        <AppSidebar />
+      </SessionProvider>
       <SidebarInset className="pb-8">
         <header className="flex h-16 shrink-0 items-center gap-2">
           <div className="flex items-center gap-2 px-4">
