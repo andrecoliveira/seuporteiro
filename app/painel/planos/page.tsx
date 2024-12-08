@@ -77,7 +77,7 @@ export default function PlansPage() {
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
           <div className="mx-auto mt-8 max-w-screen-md px-4 md:px-8">
-            <script
+            {/* <script
               async
               src="https://js.stripe.com/v3/pricing-table.js"
             ></script>
@@ -85,7 +85,7 @@ export default function PlansPage() {
               customer-email="coliveira.andre@gmail.com"
               pricing-table-id="prctbl_1QRhbwIrMpsLhs7jyIq6vfuD"
               publishable-key="pk_test_51Ns3UPIrMpsLhs7jBsA1u5TvYsBwoC9OneVOIJq3JbZF8BkbgcssfJsYbc9MHWwnmS0XtG6BeJuZ7N3eQZQ4J5rL00Pd5ArrGn"
-            ></stripe-pricing-table>
+            ></stripe-pricing-table> */}
             <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
           </div>
         </div>
