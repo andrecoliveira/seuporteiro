@@ -11,6 +11,7 @@ import { SignUpViewProps } from '../signUp.types'
 
 export default function FormInformation(props: SignUpViewProps) {
   const { informationForm, handleInfoFormSubmit } = props
+  const isSubmitting = informationForm.formState.isSubmitting
   return (
     <>
       <div className="space-y-1">
@@ -36,6 +37,7 @@ export default function FormInformation(props: SignUpViewProps) {
                 },
               })}
               id="cnpj"
+              disabled={isSubmitting}
               placeholder="00.000.000/0000-00"
               className="h-14"
               required
@@ -46,6 +48,7 @@ export default function FormInformation(props: SignUpViewProps) {
             <Input
               {...informationForm.register('name')}
               id="name"
+              disabled={isSubmitting}
               placeholder="Ex: Verana Cuccina"
               className="h-14"
               required
@@ -60,6 +63,7 @@ export default function FormInformation(props: SignUpViewProps) {
               <Input
                 {...informationForm.register('pathname')}
                 id="pathname"
+                disabled={isSubmitting}
                 placeholder="Ex: veranacuccina"
                 className="h-14 w-full"
                 required
@@ -70,10 +74,7 @@ export default function FormInformation(props: SignUpViewProps) {
             </span>
           </div>
         </div>
-        <SubmitButton
-          isLoading={informationForm.formState.isSubmitting}
-          className="mt-8 h-12 w-full"
-        >
+        <SubmitButton isLoading={isSubmitting} className="mt-8 h-12 w-full">
           Continuar
         </SubmitButton>
       </form>

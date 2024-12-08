@@ -7,6 +7,7 @@ import { SignUpViewProps } from '../signUp.types'
 
 export default function FormAccount(props: SignUpViewProps) {
   const { accountForm, handleAccountFormSubmit } = props
+  const isSubmitting = accountForm.formState.isSubmitting
   return (
     <>
       <div className="space-y-1">
@@ -27,6 +28,7 @@ export default function FormAccount(props: SignUpViewProps) {
             <Input
               {...accountForm.register('legalResponsibleName')}
               id="legalResponsibleName"
+              disabled={isSubmitting}
               placeholder="Ex: João Pedro Filho"
               className="h-14"
               autoComplete="name"
@@ -38,6 +40,7 @@ export default function FormAccount(props: SignUpViewProps) {
             <Input
               {...accountForm.register('email')}
               id="email"
+              disabled={isSubmitting}
               placeholder="joao@exemplo.com.br"
               autoComplete="email"
               className="h-14"
@@ -49,6 +52,7 @@ export default function FormAccount(props: SignUpViewProps) {
             <InputPassword
               {...accountForm.register('password')}
               id="password"
+              disabled={isSubmitting}
               placeholder="••••••••"
               autoComplete="off"
               className="h-14"
@@ -60,6 +64,7 @@ export default function FormAccount(props: SignUpViewProps) {
             <InputPassword
               {...accountForm.register('confirmPassword')}
               id="confirmPassword"
+              disabled={isSubmitting}
               placeholder="••••••••"
               autoComplete="off"
               className="h-14"

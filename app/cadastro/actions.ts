@@ -2,7 +2,13 @@
 
 import { createClient } from '@/utils/supabase/server'
 
-import { InformationForm, AccountForm } from './signUp.types'
+import {
+  InformationForm,
+  AccountForm,
+  Tenant,
+  User,
+  TenantMember,
+} from './signUp.types'
 
 export const informationAlreadyExists = async (formData: InformationForm) => {
   const supabase = await createClient()
@@ -29,7 +35,7 @@ export const signUp = async (formData: AccountForm) => {
   return { data, error }
 }
 
-export const sendOtpCode = async (email: string, token: string) => {
+export const verifyOtpCode = async (email: string, token: string) => {
   const supabase = await createClient()
   const { data, error } = await supabase.auth.verifyOtp({
     email,
@@ -39,19 +45,23 @@ export const sendOtpCode = async (email: string, token: string) => {
   return { data, error }
 }
 
-export const createTenant = async (formData: InformationForm) => {
+export const createTenant = async (formData: Partial<Tenant>) => {
   const supabase = await createClient()
-  const { data, error } = await supabase.from('tenant').insert([formData])
+  const { data, error } = await supabase
+    .from('tenant')
+    .insert([formData])
+    .select()
+    .single()
   return { data, error }
 }
 
-export const createUser = async (formData: AccountForm) => {
+export const createUser = async (formData: Partial<User>) => {
   const supabase = await createClient()
   const { data, error } = await supabase.from('user').insert([formData])
   return { data, error }
 }
 
-export const createTenantMember = async (formData: AccountForm) => {
+export const createTenantMember = async (formData: TenantMember) => {
   const supabase = await createClient()
   const { data, error } = await supabase
     .from('tenant_members')

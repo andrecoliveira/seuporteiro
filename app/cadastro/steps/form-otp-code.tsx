@@ -18,6 +18,7 @@ import { SignUpViewProps } from '../signUp.types'
 
 export default function FormOtpCode(props: SignUpViewProps) {
   const { otpCodeForm, handleOtpCodeFormSubmit } = props
+  const isSubmitting = otpCodeForm.formState.isSubmitting
   return (
     <>
       <div className="space-y-1">
@@ -40,6 +41,7 @@ export default function FormOtpCode(props: SignUpViewProps) {
             <FormField
               control={otpCodeForm.control}
               name="otpCode"
+              disabled={isSubmitting}
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-center space-y-4">
                   <FormLabel>{props.accountForm.watch('email')}</FormLabel>
@@ -60,7 +62,12 @@ export default function FormOtpCode(props: SignUpViewProps) {
                 </FormItem>
               )}
             />
-            <SubmitButton className="h-12 w-full">Validar</SubmitButton>
+            <SubmitButton
+              className="h-12 w-full"
+              isLoading={otpCodeForm.formState.isSubmitting}
+            >
+              Validar
+            </SubmitButton>
           </form>
         </Form>
       </div>
