@@ -70,9 +70,11 @@ export default function useSignUpModel() {
   )
 
   useEffect(() => {
-    Object.entries(errors).forEach(([, error]) => {
-      if (error?.message) toast.error(error.message)
-    })
+    if (Object.keys(errors).length > 0) {
+      Object.entries(errors).forEach(([, error]) => {
+        if (error?.message) toast.error(error.message)
+      })
+    }
   }, [errors])
 
   const handleInfoFormSubmit = async () => {
@@ -82,7 +84,7 @@ export default function useSignUpModel() {
       name,
     })
     if (error?.code === HTTP_STATUSCODE.NO_ROWS) {
-      setStep(Steps.Account)
+      setTimeout(() => setStep(Steps.Account), 0)
       return
     }
     if (data?.cnpj === cnpj) {
@@ -97,7 +99,10 @@ export default function useSignUpModel() {
 
   const handleAccountFormSubmit = async () => {
     const { error } = await signUp(accountForm.getValues())
-    if (!error) setStep(Steps.OTPCodeValidation)
+    if (!error) {
+      // Atraso para evitar conflito com renderizações
+      setTimeout(() => setStep(Steps.OTPCodeValidation), 0)
+    }
   }
 
   const createCustomer = async (formData: StripeCustomer) => {
@@ -110,7 +115,7 @@ export default function useSignUpModel() {
     })
     const data = await response.json()
     if (response.ok) return data
-    else console.error('Erro ao criar cliente:', data.error)
+    console.error('Erro ao criar cliente:', data.error)
   }
 
   const handleOtpCodeFormSubmit = async () => {
@@ -121,16 +126,12 @@ export default function useSignUpModel() {
       )
 
       if (sendOtpError) {
-        console.error(
-          'Erro ao verificar o código OTP. Verifique se o código inserido está correto.',
-        )
+        toast.error('Erro ao verificar o código OTP.')
         return
       }
 
       if (!otpResponse?.user) {
-        console.error(
-          'Usuário não encontrado após a verificação do código OTP.',
-        )
+        toast.error('Usuário não encontrado após a verificação do código OTP.')
         return
       }
 
@@ -144,9 +145,7 @@ export default function useSignUpModel() {
       const stripeCustomer = await createCustomer(stripeCustomerPayload)
 
       if (!stripeCustomer?.customer?.id) {
-        console.error(
-          'Erro ao criar cliente no Stripe. Verifique os dados fornecidos.',
-        )
+        toast.error('Erro ao criar cliente no Stripe.')
         return
       }
 
@@ -161,7 +160,7 @@ export default function useSignUpModel() {
         await createTenant(tenantPayload)
 
       if (tenantError) {
-        console.error('Erro ao criar o Tenant. Verifique os dados fornecidos.')
+        toast.error('Erro ao criar o Tenant.')
         return
       }
 
@@ -176,7 +175,7 @@ export default function useSignUpModel() {
       const { error: userError } = await createUser(createUserPayload)
 
       if (userError) {
-        console.error('Erro ao criar o usuário. Verifique os dados fornecidos.')
+        toast.error('Erro ao criar o usuário.')
         return
       }
 
@@ -190,18 +189,12 @@ export default function useSignUpModel() {
         await createTenantMember(tenantMemberPayload)
 
       if (tenantMemberError) {
-        console.error(
-          'Erro ao criar os membros do Tenant. Verifique os dados fornecidos.',
-        )
-        return
+        toast.error('Erro ao criar os membros do Tenant.')
       }
 
-      router.push(APP_ROUTES.private.painel)
+      setTimeout(() => router.push(APP_ROUTES.private.painel), 0)
     } catch (error) {
-      console.error(
-        'Ocorreu um erro durante o processo de submissão do formulário:',
-        error,
-      )
+      console.error('Erro durante a submissão:', error)
     }
   }
 
