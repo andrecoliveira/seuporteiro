@@ -223,7 +223,7 @@ export default function useSignUpModel() {
         toast.error('Erro ao criar os membros do Tenant.')
       }
 
-      setTimeout(() => router.push(APP_ROUTES.private.painel), 0)
+      router.push(APP_ROUTES.private.painel)
     } catch (error) {
       console.error('Erro durante a submissão:', error)
 
