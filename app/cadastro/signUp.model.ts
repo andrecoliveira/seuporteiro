@@ -18,6 +18,9 @@ import {
   createTenant,
   createTenantMember,
   createUser,
+  deleteTenant,
+  deleteTenantMember,
+  deleteUser,
   informationAlreadyExists,
 } from './actions'
 import {
@@ -33,7 +36,11 @@ import {
   StripeCustomer,
   TenantMember,
 } from './signUp.types'
-import { signUp, verifyOtpCode } from '@/lib/supabase.actions'
+import {
+  deleteSupabaseUser,
+  signUp,
+  verifyOtpCode,
+} from '@/lib/supabase.actions'
 
 export default function useSignUpModel() {
   const router = useRouter()
@@ -83,7 +90,7 @@ export default function useSignUpModel() {
       name,
     })
     if (error?.code === HTTP_STATUSCODE.NO_ROWS) {
-      setTimeout(() => setStep(Steps.Account), 0)
+      setStep(Steps.Account)
       return
     }
     if (data?.cnpj === cnpj) {
@@ -98,10 +105,7 @@ export default function useSignUpModel() {
 
   const handleAccountFormSubmit = async () => {
     const { error } = await signUp(accountForm.getValues())
-    if (!error) {
-      // Atraso para evitar conflito com renderizações
-      setTimeout(() => setStep(Steps.OTPCodeValidation), 0)
-    }
+    if (!error) setStep(Steps.OTPCodeValidation)
   }
 
   const createCustomer = async (formData: StripeCustomer) => {
@@ -117,7 +121,26 @@ export default function useSignUpModel() {
     console.error('Erro ao criar cliente:', data.error)
   }
 
+  const deleteCustomer = async (customerId: string) => {
+    const response = await fetch('/api/stripe/delete-customer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(customerId),
+    })
+    const data = await response.json()
+    if (response.ok) return data
+    console.error('Erro ao deletar cliente:', data.error)
+  }
+
   const handleOtpCodeFormSubmit = async () => {
+    let supabaseUser: string | null = null
+    let userId: string | null = null
+    let stripeCustomerId: string | null = null
+    let tenantId: string | null = null
+    let tenantMemberId: string | null = null
+
     try {
       const { data: otpResponse, error: sendOtpError } = await verifyOtpCode(
         email,
@@ -134,6 +157,8 @@ export default function useSignUpModel() {
         return
       }
 
+      supabaseUser = otpResponse.user.id
+
       const stripeCustomerPayload = {
         legalResponsibleName,
         email,
@@ -148,10 +173,13 @@ export default function useSignUpModel() {
         return
       }
 
+      stripeCustomerId = stripeCustomer.customer.id
+
       const tenantPayload = {
         name,
         pathname,
         cnpj,
+        contact_email: email,
         stripe_id: stripeCustomer.customer.id,
       }
 
@@ -162,6 +190,8 @@ export default function useSignUpModel() {
         toast.error('Erro ao criar o Tenant.')
         return
       }
+
+      tenantId = tenantResponse.id
 
       const createUserPayload = {
         id: otpResponse.user.id,
@@ -177,6 +207,8 @@ export default function useSignUpModel() {
         toast.error('Erro ao criar o usuário.')
         return
       }
+
+      userId = otpResponse.user.id
 
       const tenantMemberPayload = {
         tenant_id: tenantResponse.id,
@@ -194,6 +226,14 @@ export default function useSignUpModel() {
       setTimeout(() => router.push(APP_ROUTES.private.painel), 0)
     } catch (error) {
       console.error('Erro durante a submissão:', error)
+
+      if (supabaseUser) await deleteSupabaseUser(supabaseUser)
+      if (stripeCustomerId) await deleteCustomer(stripeCustomerId)
+      if (tenantId) await deleteTenant(tenantId)
+      if (userId) await deleteUser(userId)
+      if (tenantMemberId) await deleteTenantMember(tenantMemberId)
+
+      toast.error('Algo deu errado. Por favor, tente novamente.')
     }
   }
 
