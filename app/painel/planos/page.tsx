@@ -1,6 +1,5 @@
 import Image from 'next/image'
 
-import { signOutAction } from '@/app/(auth-pages)/actions'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { logo } from '@/images'
 import { CircleUser, LogOut } from 'lucide-react'
+import { signOutAction } from '@/lib/supabase.actions'
 
 export default function PlansPage() {
   return (

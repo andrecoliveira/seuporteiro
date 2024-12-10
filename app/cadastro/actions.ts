@@ -2,13 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 
-import {
-  InformationForm,
-  AccountForm,
-  Tenant,
-  User,
-  TenantMember,
-} from './signUp.types'
+import { InformationForm, Tenant, User, TenantMember } from './signUp.types'
 
 export const informationAlreadyExists = async (formData: InformationForm) => {
   const supabase = await createClient()
@@ -21,27 +15,13 @@ export const informationAlreadyExists = async (formData: InformationForm) => {
   return { data, error }
 }
 
-export const signUp = async (formData: AccountForm) => {
+export const emailAlreadyExists = async (email: string) => {
   const supabase = await createClient()
-  const { data, error } = await supabase.auth.signUp({
-    email: formData.email,
-    password: formData.password,
-    options: {
-      data: {
-        fullName: formData.legalResponsibleName,
-      },
-    },
-  })
-  return { data, error }
-}
-
-export const verifyOtpCode = async (email: string, token: string) => {
-  const supabase = await createClient()
-  const { data, error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: 'email',
-  })
+  const { data, error } = await supabase
+    .from('tenant')
+    .select('contact_email')
+    .or(`contact_email.eq.${email.toLowerCase()}`)
+    .single()
   return { data, error }
 }
 
@@ -55,9 +35,27 @@ export const createTenant = async (formData: Partial<Tenant>) => {
   return { data, error }
 }
 
+export const deleteTenant = async (tenantId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('tenant')
+    .delete()
+    .match({ id: tenantId })
+  return { data, error }
+}
+
 export const createUser = async (formData: Partial<User>) => {
   const supabase = await createClient()
   const { data, error } = await supabase.from('user').insert([formData])
+  return { data, error }
+}
+
+export const deleteUser = async (userId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('user')
+    .delete()
+    .match({ id: userId })
   return { data, error }
 }
 
@@ -66,5 +64,14 @@ export const createTenantMember = async (formData: TenantMember) => {
   const { data, error } = await supabase
     .from('tenant_members')
     .insert([formData])
+  return { data, error }
+}
+
+export const deleteTenantMember = async (tenantMemberId: string) => {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('tenant_members')
+    .delete()
+    .match({ id: tenantMemberId })
   return { data, error }
 }

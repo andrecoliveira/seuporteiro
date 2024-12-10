@@ -1,6 +1,5 @@
 'use client'
 
-import { signOutAction } from '@/app/(auth-pages)/actions'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +15,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { useSession } from '@/hooks/use-session'
+import { signOutAction } from '@/lib/supabase.actions'
 import {
   BadgeCheck,
   Bell,

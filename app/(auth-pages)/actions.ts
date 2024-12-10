@@ -6,8 +6,6 @@ import { redirect } from 'next/navigation'
 import { encodedRedirect } from '@/utils/encoded-redirect'
 import { createClient } from '@/utils/supabase/server'
 
-import { APP_ROUTES } from '../constants'
-
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString()
   const password = formData.get('password')?.toString()
@@ -36,23 +34,6 @@ export const signUpAction = async (formData: FormData) => {
       'Thanks for signing up! Please check your email for a verification link.',
     )
   }
-}
-
-export const signInAction = async (formData: FormData) => {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const supabase = await createClient()
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
-
-  if (error) {
-    return encodedRedirect('error', APP_ROUTES.public.signIn, error.code)
-  }
-
-  return redirect(APP_ROUTES.private.painel)
 }
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -124,10 +105,4 @@ export const resetPasswordAction = async (formData: FormData) => {
   }
 
   encodedRedirect('success', '/protected/reset-password', 'Password updated')
-}
-
-export const signOutAction = async () => {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
-  return redirect('/')
 }

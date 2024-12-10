@@ -1,4 +1,4 @@
-import { signInAction } from '@/app/(auth-pages)/actions'
+import { signInAction } from '@/lib/supabase.actions'
 
 export default function useSignInModel() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

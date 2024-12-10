@@ -19,8 +19,6 @@ import {
   createTenantMember,
   createUser,
   informationAlreadyExists,
-  signUp,
-  verifyOtpCode,
 } from './actions'
 import {
   informationSchema,
@@ -35,6 +33,7 @@ import {
   StripeCustomer,
   TenantMember,
 } from './signUp.types'
+import { signUp, verifyOtpCode } from '@/lib/supabase.actions'
 
 export default function useSignUpModel() {
   const router = useRouter()
