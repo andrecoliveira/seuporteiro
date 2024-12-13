@@ -1,10 +1,13 @@
 'use server'
 
-import stripe from '@/lib/stripe'
-import { createClient } from '@/utils/supabase/server'
 import { cache } from 'react'
-import { Tenant } from '../cadastro/signUp.types'
+
+import stripe from '@/lib/stripe'
 import Stripe from 'stripe'
+
+import { createClient } from '@/utils/supabase/server'
+
+import { Tenant } from '../cadastro/signUp.types'
 
 export const getUser = cache(async () => {
   const supabase = await createClient()

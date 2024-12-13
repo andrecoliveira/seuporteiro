@@ -10,8 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { logo } from '@/images'
-import { CircleUser, LogOut } from 'lucide-react'
 import { signOutAction } from '@/lib/supabase.actions'
+import { CircleUser, LogOut } from 'lucide-react'
+
 import PricingTable from './pricing-table'
 
 export default function PlansPage() {

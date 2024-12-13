@@ -2,6 +2,12 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import { createCustomer, deleteCustomer } from '@/lib/stripe.actions'
+import {
+  deleteSupabaseUser,
+  signUp,
+  verifyOtpCode,
+} from '@/lib/supabase.actions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
@@ -11,7 +17,7 @@ import {
   validateStringCase,
   validateStringLength,
 } from '@/utils/validatePassword'
-import { createCustomer, deleteCustomer } from '@/lib/stripe.actions'
+
 import { APP_ROUTES, HTTP_STATUSCODE } from '@/app/constants'
 
 import {
@@ -35,11 +41,6 @@ import {
   OtpCodeForm,
   TenantMember,
 } from './signUp.types'
-import {
-  deleteSupabaseUser,
-  signUp,
-  verifyOtpCode,
-} from '@/lib/supabase.actions'
 
 export default function useSignUpModel() {
   const router = useRouter()
@@ -122,7 +123,7 @@ export default function useSignUpModel() {
     let userId: string | null = null
     let stripeCustomerId: string | null = null
     let tenantId: string | null = null
-    let tenantMemberId: string | null = null
+    const tenantMemberId: string | null = null
 
     try {
       const { data: otpResponse, error: sendOtpError } = await verifyOtpCode(
