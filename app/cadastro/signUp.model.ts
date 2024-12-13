@@ -11,7 +11,7 @@ import {
   validateStringCase,
   validateStringLength,
 } from '@/utils/validatePassword'
-
+import { createCustomer, deleteCustomer } from '@/lib/stripe.actions'
 import { APP_ROUTES, HTTP_STATUSCODE } from '@/app/constants'
 
 import {
@@ -33,7 +33,6 @@ import {
   AccountForm,
   InformationForm,
   OtpCodeForm,
-  StripeCustomer,
   TenantMember,
 } from './signUp.types'
 import {
@@ -83,6 +82,16 @@ export default function useSignUpModel() {
     }
   }, [errors])
 
+  useEffect(() => {
+    if (step === Steps.Account) accountForm.setFocus('legalResponsibleName')
+  }, [step])
+
+  const cleanAllValues = () => {
+    informationForm.reset()
+    accountForm.reset()
+    otpCodeForm.reset()
+  }
+
   const handleInfoFormSubmit = async () => {
     const { data, error } = await informationAlreadyExists({
       cnpj,
@@ -106,32 +115,6 @@ export default function useSignUpModel() {
   const handleAccountFormSubmit = async () => {
     const { error } = await signUp(accountForm.getValues())
     if (!error) setStep(Steps.OTPCodeValidation)
-  }
-
-  const createCustomer = async (formData: StripeCustomer) => {
-    const response = await fetch('/api/stripe/create-customer', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    const data = await response.json()
-    if (response.ok) return data
-    console.error('Erro ao criar cliente:', data.error)
-  }
-
-  const deleteCustomer = async (customerId: string) => {
-    const response = await fetch('/api/stripe/delete-customer', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(customerId),
-    })
-    const data = await response.json()
-    if (response.ok) return data
-    console.error('Erro ao deletar cliente:', data.error)
   }
 
   const handleOtpCodeFormSubmit = async () => {
@@ -222,6 +205,8 @@ export default function useSignUpModel() {
       if (tenantMemberError) {
         toast.error('Erro ao criar os membros do Tenant.')
       }
+
+      cleanAllValues()
 
       router.push(APP_ROUTES.private.painel)
     } catch (error) {

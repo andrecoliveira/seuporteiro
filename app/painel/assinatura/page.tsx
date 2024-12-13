@@ -12,6 +12,7 @@ import {
 import { logo } from '@/images'
 import { CircleUser, LogOut } from 'lucide-react'
 import { signOutAction } from '@/lib/supabase.actions'
+import PricingTable from './pricing-table'
 
 export default function PlansPage() {
   return (
@@ -76,18 +77,7 @@ export default function PlansPage() {
             Escolha o melhor plano para o seu negócio
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
-          <div className="mx-auto mt-8 max-w-screen-md px-4 md:px-8">
-            {/* <script
-              async
-              src="https://js.stripe.com/v3/pricing-table.js"
-            ></script>
-            <stripe-pricing-table
-              customer-email="coliveira.andre@gmail.com"
-              pricing-table-id="prctbl_1QRhbwIrMpsLhs7jyIq6vfuD"
-              publishable-key="pk_test_51Ns3UPIrMpsLhs7jBsA1u5TvYsBwoC9OneVOIJq3JbZF8BkbgcssfJsYbc9MHWwnmS0XtG6BeJuZ7N3eQZQ4J5rL00Pd5ArrGn"
-            ></stripe-pricing-table> */}
-            <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
-          </div>
+          <PricingTable />
         </div>
       </main>
       <footer className="text-gray-600">

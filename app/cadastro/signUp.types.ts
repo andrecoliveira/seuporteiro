@@ -38,13 +38,6 @@ export interface TenantMember {
   role: 'member' | 'admin' | 'owner'
 }
 
-export interface StripeCustomer {
-  email: string
-  legalResponsibleName: string
-  tenantName: string
-  userId: string
-}
-
 export type SignUpViewProps = ReturnType<typeof useSignUpModel>
 
 export type InformationForm = z.infer<typeof informationSchema>
