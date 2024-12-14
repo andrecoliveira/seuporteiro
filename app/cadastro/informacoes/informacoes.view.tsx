@@ -7,9 +7,9 @@ import { normalizeCNPJ } from '@/utils/normalize'
 
 import { APP_ROUTES } from '@/app/constants'
 
-import { SignUpViewProps } from '../signUp.types'
+import { InformationViewProps } from '../signUp.types'
 
-export default function FormInformation(props: SignUpViewProps) {
+export default function FormInformation(props: InformationViewProps) {
   const { informationForm, handleInfoFormSubmit } = props
   const isSubmitting = informationForm.formState.isSubmitting
   return (

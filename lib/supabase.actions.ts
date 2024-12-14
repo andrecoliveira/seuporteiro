@@ -1,10 +1,13 @@
 'use server'
 
+import { redirect } from 'next/navigation'
+
 import { AccountForm } from '@/app/cadastro/signUp.types'
-import { APP_ROUTES } from '@/app/constants'
+
 import { encodedRedirect } from '@/utils/encoded-redirect'
 import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+
+import { APP_ROUTES } from '@/app/constants'
 
 export const signInAction = async (formData: FormData) => {
   const email = formData.get('email') as string

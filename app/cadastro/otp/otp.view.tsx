@@ -14,11 +14,10 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp'
 
-import { SignUpViewProps } from '../signUp.types'
+import { OtpCodeViewProps } from '../signUp.types'
 
-export default function FormOtpCode(props: SignUpViewProps) {
-  const { otpCodeForm, handleOtpCodeFormSubmit } = props
-  const isSubmitting = otpCodeForm.formState.isSubmitting
+export default function FormOtpCode(props: OtpCodeViewProps) {
+  const { otpCodeForm, handleOtpCodeFormSubmit, isLoading } = props
   return (
     <>
       <div className="space-y-1">
@@ -41,10 +40,9 @@ export default function FormOtpCode(props: SignUpViewProps) {
             <FormField
               control={otpCodeForm.control}
               name="otpCode"
-              disabled={isSubmitting}
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-center space-y-4">
-                  <FormLabel>{props.accountForm.watch('email')}</FormLabel>
+                  <FormLabel>{props.email}</FormLabel>
                   <FormControl>
                     <InputOTP maxLength={6} {...field}>
                       <InputOTPGroup>
@@ -62,10 +60,7 @@ export default function FormOtpCode(props: SignUpViewProps) {
                 </FormItem>
               )}
             />
-            <SubmitButton
-              className="h-12 w-full"
-              isLoading={otpCodeForm.formState.isSubmitting}
-            >
+            <SubmitButton className="h-12 w-full" isLoading={isLoading}>
               Validar
             </SubmitButton>
           </form>

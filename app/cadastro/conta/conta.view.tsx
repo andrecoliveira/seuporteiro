@@ -3,9 +3,9 @@ import { SubmitButton } from '@/components/submit-button'
 import { Input, Label } from '@/components/ui'
 import { CircleCheck } from 'lucide-react'
 
-import { SignUpViewProps } from '../signUp.types'
+import { AccountViewProps } from '../signUp.types'
 
-export default function FormAccount(props: SignUpViewProps) {
+export default function FormAccount(props: AccountViewProps) {
   const { accountForm, handleAccountFormSubmit } = props
   const isSubmitting = accountForm.formState.isSubmitting
   return (

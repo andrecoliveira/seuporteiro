@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 import { validatePassword } from '@/utils/validatePassword'
 import { validCNPJ } from '@/utils/validations'
-
 export enum Steps {
   Information = 1,
   Account = 2,

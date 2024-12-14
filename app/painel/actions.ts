@@ -12,19 +12,21 @@ import { Tenant } from '../cadastro/signUp.types'
 export const getUser = cache(async () => {
   const supabase = await createClient()
   const user = await supabase.auth.getUser()
-  if (!user) throw new Error('Usuário não autenticado.')
-  return user
-})
-
-export const getTenant = cache(async (userId: string) => {
-  const supabase = await createClient()
+  if (!user) return { data: null }
   const { data } = await supabase
     .from('user')
     .select('role, tenant_id(*)')
-    .eq('id', userId)
+    .eq('id', user.data.user?.id)
     .single()
-  if (!data) throw new Error('Dados do usuário não encontrados.')
-  return data.tenant_id as Partial<Tenant>
+  if (!data) return { data: null }
+  return {
+    data: {
+      user,
+      tenant: {
+        ...(data.tenant_id as Partial<Tenant>),
+      },
+    },
+  }
 })
 
 export const getSubscription = cache(
@@ -42,10 +44,8 @@ export const getSubscription = cache(
         subscription,
       }
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error'
       return {
-        error: errorMessage,
+        error: error instanceof Error ? error.message : 'Unknown error',
       }
     }
   },
