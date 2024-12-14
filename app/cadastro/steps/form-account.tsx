@@ -3,9 +3,9 @@ import { SubmitButton } from '@/components/submit-button'
 import { Input, Label } from '@/components/ui'
 import { CircleCheck } from 'lucide-react'
 
-import { AccountViewProps } from '../signUp.types'
+import { SignUpViewProps } from '../signUp.types'
 
-export default function FormAccount(props: AccountViewProps) {
+export default function FormAccount(props: SignUpViewProps) {
   const { accountForm, handleAccountFormSubmit } = props
   const isSubmitting = accountForm.formState.isSubmitting
   return (
@@ -122,9 +122,4 @@ export default function FormAccount(props: AccountViewProps) {
       </form>
     </>
   )
-}
-
-{
-  /* Restaurante - Cafeteria - Bar / Casa Noturna - Comida Rápida -
-              Outro negócio gastronômico - Outro negócio não gastronômico */
 }

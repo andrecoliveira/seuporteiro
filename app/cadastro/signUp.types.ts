@@ -1,8 +1,6 @@
 import { z } from 'zod'
 
-import useAccountModel from './conta/conta.model'
-import useInformationsModel from './informacoes/informacoes.model'
-import useOtpCodeModel from './otp/otp.model'
+import useSignUpModel from './signUp.model'
 import {
   informationSchema,
   accountSchema,
@@ -40,9 +38,7 @@ export interface TenantMember {
   role: 'member' | 'admin' | 'owner'
 }
 
-export type InformationViewProps = ReturnType<typeof useInformationsModel>
-export type AccountViewProps = ReturnType<typeof useAccountModel>
-export type OtpCodeViewProps = ReturnType<typeof useOtpCodeModel>
+export type SignUpViewProps = ReturnType<typeof useSignUpModel>
 
 export type InformationForm = z.infer<typeof informationSchema>
 export type AccountForm = z.infer<typeof accountSchema>
