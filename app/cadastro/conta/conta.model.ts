@@ -21,7 +21,7 @@ import { AccountForm } from '../signUp.types'
 
 export default function useAccountModel() {
   const storage = JSON.parse(
-    sessionStorage.getItem(SessionStorage.information) ?? '{}',
+    window.sessionStorage.getItem(SessionStorage.information) ?? '{}',
   )
 
   const accountForm = useForm<AccountForm>({
@@ -49,7 +49,7 @@ export default function useAccountModel() {
     }
     const { error } = await signUp(accountForm.getValues())
     if (!error) {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SessionStorage.information,
         JSON.stringify({ ...storage, email, legalResponsibleName }),
       )

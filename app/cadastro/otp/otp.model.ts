@@ -12,7 +12,7 @@ import { OtpCodeForm } from '../signUp.types'
 
 export default function useOtpCodeModel() {
   const storage = JSON.parse(
-    sessionStorage.getItem(SessionStorage.information) ?? '{}',
+    window.sessionStorage.getItem(SessionStorage.information) ?? '{}',
   )
 
   const otpCodeForm = useForm<OtpCodeForm>({
@@ -42,7 +42,7 @@ export default function useOtpCodeModel() {
       )
     }
     if (response.status === HttpStatusCode.created) {
-      sessionStorage.removeItem(SessionStorage.information)
+      window.sessionStorage.removeItem(SessionStorage.information)
       redirect(APP_ROUTES.private.painel)
     }
   }

@@ -35,7 +35,7 @@ export default function useInformationsModel() {
       query: `pathname.eq.${pathname.toLowerCase()},cnpj.eq.${cnpj}`,
     })
     if (error?.code === HttpSupabaseError.NO_ROWS) {
-      sessionStorage.setItem(
+      window.sessionStorage.setItem(
         SessionStorage.information,
         JSON.stringify({ cnpj, pathname, name }),
       )
