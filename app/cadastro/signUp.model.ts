@@ -86,9 +86,11 @@ export default function useSignUpModel() {
         throw new Error('Erro ao buscar informações.')
       }
       if (data.cnpj === cnpj) {
+        informationForm.setFocus('cnpj')
         throw new Error('Este CNPJ já possui cadastro em nossa aplicação')
       }
       if (data.pathname === pathname) {
+        informationForm.setFocus('pathname')
         throw new Error('Este endereço já está sendo utilizado')
       }
     } catch (err) {
