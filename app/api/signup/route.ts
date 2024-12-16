@@ -68,7 +68,6 @@ export async function POST(req: Request) {
         name,
         pathname,
         cnpj,
-        contact_email: email,
         stripe_id: stripeCustomer.id,
       })
       .select()

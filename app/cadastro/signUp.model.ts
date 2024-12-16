@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -29,6 +29,7 @@ import {
 import { AccountForm, InformationForm, OtpCodeForm } from './signUp.types'
 
 export default function useSignUpModel() {
+  const router = useRouter()
   const [step, setStep] = useState(Steps.Information)
 
   const informationForm = useForm<InformationForm>({
@@ -82,15 +83,10 @@ export default function useSignUpModel() {
         setStep(Steps.Account)
         return
       }
-      if (!data) {
-        throw new Error('Erro ao buscar informações.')
-      }
-      if (data.cnpj === cnpj) {
-        informationForm.setFocus('cnpj')
+      if (data && data.cnpj === cnpj) {
         throw new Error('Este CNPJ já possui cadastro em nossa aplicação')
       }
-      if (data.pathname === pathname) {
-        informationForm.setFocus('pathname')
+      if (data && data.pathname === pathname) {
         throw new Error('Este endereço já está sendo utilizado')
       }
     } catch (err) {
@@ -106,10 +102,7 @@ export default function useSignUpModel() {
         select: 'contact_email',
         query: `contact_email.eq.${email.toLowerCase()}`,
       })
-      if (!data) {
-        throw new Error('Erro ao buscar as informações.')
-      }
-      if (data.contact_email === email) {
+      if (data && data.contact_email === email) {
         throw new Error('Este e-mail já está sendo utilizado')
       }
       const { error } = await signUp(accountForm.getValues())
@@ -139,7 +132,7 @@ export default function useSignUpModel() {
         )
       }
       if (response.status === HttpStatusCode.created) {
-        redirect(APP_ROUTES.private.painel)
+        router.push(APP_ROUTES.private.painel)
       }
     } catch (err) {
       console.error('Erro ao verificar informações:', err)
