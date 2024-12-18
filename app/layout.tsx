@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 
 import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
+import { ClerkProvider } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,18 +25,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
-          sizes="180x180"
-        />
-      </head>
-      <body className={inter.className}>
-        {children}
-        <Toaster position="top-center" expand richColors />
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <link
+            rel="apple-touch-icon"
+            href="/apple-touch-icon.png"
+            sizes="180x180"
+          />
+        </head>
+        <body className={inter.className}>
+          {children}
+          <Toaster position="top-center" expand richColors />
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }

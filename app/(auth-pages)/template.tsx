@@ -12,9 +12,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <div className="mb-8 mt-10 flex justify-center sm:mt-0">
           <Image src={logotipo} alt="Logo" width={300} priority />
         </div>
-        <div className="w-full rounded-lg bg-white pb-2 shadow">
+        <div className="w-full rounded-lg bg-white p-2 shadow">
           {children}
-          <div className="mx-2 flex justify-center rounded-lg bg-slate-100 py-6">
+          <div className="flex justify-center rounded-lg bg-slate-100 py-6">
             <span className="text-sm font-normal text-gray-500">
               Não possui conta?{' '}
               <Link

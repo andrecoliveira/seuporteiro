@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 
 type Props = ComponentProps<typeof Button> & { isLoading?: boolean }
 
-const loadingSvg = (
+export const loadingSvg = (
   <svg
     className="animate-spin"
     width="20"

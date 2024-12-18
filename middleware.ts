@@ -1,20 +1,36 @@
-import { type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
-import { updateSession } from '@/utils/supabase/middleware'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request)
-}
+// Define as rotas protegidas
+const isProtectedRoute = createRouteMatcher(['/painel(.*)'])
+
+export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth()
+
+  // Se o usuário acessar a rota raiz e não estiver autenticado, redirecione para "/entrar"
+  if (req.nextUrl.pathname === '/' && !userId) {
+    return NextResponse.redirect(new URL('/entrar', req.url))
+  }
+
+  // Se o usuário estiver autenticado e a rota atual não for "/painel", redirecione para "/painel"
+  if (userId && !req.nextUrl.pathname.startsWith('/painel')) {
+    return NextResponse.redirect(new URL('/painel', req.url))
+  }
+
+  // Se o usuário não estiver autenticado e tentar acessar uma rota protegida, redirecione para "/entrar"
+  if (!userId && isProtectedRoute(req)) {
+    return NextResponse.redirect(new URL('/entrar', req.url))
+  }
+
+  // Permite o acesso à rota atual
+  return NextResponse.next()
+})
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    // Aplica o middleware para todas as rotas relevantes
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
   ],
 }

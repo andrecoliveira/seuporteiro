@@ -14,8 +14,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { useSession } from '@/hooks/use-session'
-import { signOutAction } from '@/lib/supabase.actions'
+import { SignOutButton } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 import {
   BadgeCheck,
   Bell,
@@ -24,17 +24,9 @@ import {
   LogOut,
 } from 'lucide-react'
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function NavUser() {
   const { isMobile } = useSidebar()
-  const account = useSession()
+  const { user } = useUser()
 
   return (
     <SidebarMenu>
@@ -46,9 +38,11 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
+                <span className="truncate font-semibold">
+                  {user?.firstName}
+                </span>
                 <span className="truncate text-xs">
-                  {account.session.email}
+                  {user?.primaryEmailAddress?.emailAddress}
                 </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -78,13 +72,12 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="hover:cursor-pointer"
-              onClick={signOutAction}
-            >
-              <LogOut />
-              Sair
-            </DropdownMenuItem>
+            <SignOutButton>
+              <DropdownMenuItem className="hover:cursor-pointer">
+                <LogOut />
+                Sair
+              </DropdownMenuItem>
+            </SignOutButton>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
