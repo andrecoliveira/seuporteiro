@@ -7,8 +7,6 @@ import Stripe from 'stripe'
 
 import { createClient } from '@/utils/supabase/server'
 
-import { Tenant } from '../cadastro/signUp.types'
-
 export const getUser = cache(async () => {
   const supabase = await createClient()
   const user = await supabase.auth.getUser()
@@ -23,7 +21,7 @@ export const getUser = cache(async () => {
     data: {
       user,
       tenant: {
-        ...(data.tenant_id as Partial<Tenant>),
+        ...data.tenant_id,
       },
     },
   }
