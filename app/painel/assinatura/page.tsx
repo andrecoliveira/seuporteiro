@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { logo } from '@/images'
-import { signOutAction } from '@/lib/supabase.actions'
 import { CircleUser, LogOut } from 'lucide-react'
 
 import PricingTable from './pricing-table'
@@ -46,10 +45,7 @@ export default function PlansPage() {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="bg-stone-700" />
-              <DropdownMenuItem
-                className="hover:cursor-pointer"
-                onClick={signOutAction}
-              >
+              <DropdownMenuItem className="hover:cursor-pointer">
                 <LogOut />
                 Sair
               </DropdownMenuItem>
