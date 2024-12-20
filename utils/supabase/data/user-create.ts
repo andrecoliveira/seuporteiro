@@ -1,6 +1,6 @@
 'server only'
 
-import { createClient } from '../server'
+import { createClerkSupabaseClientSsr } from '@/lib/clerk-server'
 
 interface UserCreateProps {
   email: string
@@ -17,7 +17,7 @@ export const userCreate = async ({
   profile_image_url,
   user_id,
 }: UserCreateProps) => {
-  const supabase = await createClient()
+  const supabase = await createClerkSupabaseClientSsr()
 
   try {
     const { data, error } = await supabase
