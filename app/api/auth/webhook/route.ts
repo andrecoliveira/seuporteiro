@@ -1,10 +1,10 @@
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
+import { createCustomer } from '@/actions/create-customer'
+import { insertUser } from '@/actions/insert-user'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { Webhook } from 'svix'
-
-import { userCreate } from '@/utils/supabase/data/user-create'
 
 export async function POST(req: Request) {
   console.log('Webhook POST request received')
@@ -59,14 +59,31 @@ export async function POST(req: Request) {
   const eventType = evt.type
   console.log('Webhook event type:', eventType)
 
+  const {
+    email_addresses,
+    first_name: firstName,
+    last_name: lastName,
+    profile_image_url: profileImageUrl,
+    id: userId,
+  } = payload?.data || {}
+
+  const email = email_addresses?.[0]?.email_address
+
   if (eventType === 'user.created') {
     try {
-      await userCreate({
-        email: payload?.data?.email_addresses?.[0]?.email_address,
-        first_name: payload?.data?.first_name,
-        last_name: payload?.data?.last_name,
-        profile_image_url: payload?.data?.profile_image_url,
-        user_id: payload?.data?.id,
+      await insertUser({
+        email,
+        firstName,
+        lastName,
+        profileImageUrl,
+        userId,
+      })
+
+      await createCustomer({
+        email,
+        firstName,
+        lastName,
+        userId,
       })
 
       return NextResponse.json(
