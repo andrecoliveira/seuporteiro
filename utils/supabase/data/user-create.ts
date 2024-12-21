@@ -1,6 +1,6 @@
 'use server'
 
-import { createClerkSupabaseClientSsr } from '@/lib/clerk-server'
+import { createClient } from '@/utils/supabase/server'
 
 interface UserCreateProps {
   email: string
@@ -17,7 +17,7 @@ export const userCreate = async ({
   profile_image_url,
   user_id,
 }: UserCreateProps) => {
-  const supabase = await createClerkSupabaseClientSsr()
+  const supabase = await createClient()
 
   try {
     const response = await supabase.from('user').insert([
@@ -30,7 +30,11 @@ export const userCreate = async ({
       },
     ])
 
-    console.log('Task successfully added!', response)
+    if (!response.error) {
+      console.log('Task successfully added!', response)
+    } else {
+      throw new Error(response.error.message)
+    }
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message)
