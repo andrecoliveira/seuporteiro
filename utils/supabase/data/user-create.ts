@@ -1,4 +1,4 @@
-'server only'
+'use server'
 
 import { createClerkSupabaseClientSsr } from '@/lib/clerk-server'
 
@@ -20,24 +20,17 @@ export const userCreate = async ({
   const supabase = await createClerkSupabaseClientSsr()
 
   try {
-    const { data, error } = await supabase
-      .from('user')
-      .insert([
-        {
-          email,
-          first_name,
-          last_name,
-          profile_image_url,
-          user_id,
-        },
-      ])
-      .select()
+    const response = await supabase.from('user').insert([
+      {
+        email,
+        first_name,
+        last_name,
+        profile_image_url,
+        user_id,
+      },
+    ])
 
-    console.log('data', data)
-    console.log('error', error)
-
-    if (error?.code) return error
-    return data
+    console.log('Task successfully added!', response)
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message)
