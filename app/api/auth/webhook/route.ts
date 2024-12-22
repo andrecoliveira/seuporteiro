@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
 
 import { createCustomer } from '@/actions/create-customer'
-import { insertUser } from '@/actions/insert-user'
+import { createtUser } from '@/actions/create-user'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { Webhook } from 'svix'
 
@@ -71,21 +71,20 @@ export async function POST(req: Request) {
 
   if (eventType === 'user.created') {
     try {
-      await insertUser({
+      const stripeCustomerId = await createCustomer({
+        email,
+        firstName,
+        lastName,
+        userId,
+      })
+      await createtUser({
         email,
         firstName,
         lastName,
         profileImageUrl,
         userId,
+        customerId: stripeCustomerId || null,
       })
-
-      await createCustomer({
-        email,
-        firstName,
-        lastName,
-        userId,
-      })
-
       return NextResponse.json(
         { message: 'User created successfully' },
         { status: 200 },
