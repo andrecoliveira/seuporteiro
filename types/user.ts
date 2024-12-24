@@ -4,5 +4,5 @@ export interface User {
   lastName: string
   profileImageUrl: string
   userId: string
-  customerId: string | null
+  stripeCustomerId: string | null
 }

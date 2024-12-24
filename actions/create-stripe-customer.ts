@@ -1,11 +1,9 @@
-'use server'
-
 import stripe from '@/lib/stripe'
 import { User } from '@/types/user'
 
-export const createCustomer = async (
-  formData: Omit<User, 'profileImageUrl' | 'customerId'>,
-): Promise<string> => {
+export async function createStripeCustomer(
+  formData: Omit<User, 'profileImageUrl' | 'stripeCustomerId'>,
+) {
   try {
     const stripeCustomer = await stripe.customers.create({
       name: `${formData.firstName} ${formData.lastName}`,
@@ -15,10 +13,9 @@ export const createCustomer = async (
       metadata: { user_id: formData.userId },
     })
     if (!stripeCustomer.id) throw new Error('Error creating customer')
-    console.log('Customer successfully created!', stripeCustomer)
-    return stripeCustomer.id
-  } catch (error: unknown) {
-    if (error instanceof Error) throw new Error(error.message)
-    throw new Error('An unexpected error occurred.')
+    return stripeCustomer
+  } catch (error) {
+    console.error('Error creating Stripe customer:', error)
+    throw error
   }
 }
