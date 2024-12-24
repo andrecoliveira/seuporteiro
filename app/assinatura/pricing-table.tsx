@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-
+'use client'
 export default function PricingTable() {
   return (
     <div className="mx-auto mt-8 max-w-screen-md px-4 md:px-8">
