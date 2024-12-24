@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import Image from 'next/image'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -13,7 +10,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { logo } from '@/images'
+import { SignOutButton } from '@clerk/nextjs'
 import { CircleUser, LogOut } from 'lucide-react'
+
+import PricingTable from './pricing-table'
 
 export default function PlansPage() {
   return (
@@ -46,10 +46,12 @@ export default function PlansPage() {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator className="bg-stone-700" />
-              <DropdownMenuItem className="hover:cursor-pointer">
-                <LogOut />
-                Sair
-              </DropdownMenuItem>
+              <SignOutButton>
+                <DropdownMenuItem className="hover:cursor-pointer">
+                  <LogOut />
+                  Sair
+                </DropdownMenuItem>
+              </SignOutButton>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -75,17 +77,7 @@ export default function PlansPage() {
             Escolha o melhor plano para o seu negócio
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
-          <div className="mx-auto mt-8 max-w-screen-md px-4 md:px-8">
-            <script
-              async
-              src="https://js.stripe.com/v3/pricing-table.js"
-            ></script>
-            <stripe-pricing-table
-              pricing-table-id="prctbl_1QRhbwIrMpsLhs7jyIq6vfuD"
-              publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
-            />
-            <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
-          </div>
+          <PricingTable />
         </div>
       </main>
       <footer className="text-gray-600">

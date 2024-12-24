@@ -133,10 +133,10 @@ export default function Page() {
                       PASSO <strong>2</strong> DE <strong>2</strong>
                     </span>
                     <h4 className="text-xl font-semibold tracking-tight text-gray-700">
-                      Informações da loja
+                      Quase lá!
                     </h4>
                     <p className="text-sm text-gray-500">
-                      Preencha com os dados do seu negócio
+                      Insira o código de verificação enviado para o seu e-mail:
                     </p>
                   </div>
                   <div className="my-16">
