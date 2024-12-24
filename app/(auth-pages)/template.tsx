@@ -1,7 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import { logotipo } from '@/images'
+import { ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
 
 import { APP_ROUTES } from '@/app/constants'
 
@@ -13,7 +15,15 @@ export default function Template({ children }: { children: React.ReactNode }) {
           <Image src={logotipo} alt="Logo" width={300} priority />
         </div>
         <div className="w-full rounded-lg bg-white p-2 shadow">
-          {children}
+          <ClerkLoading>
+            <div className="px-4 py-6 sm:px-10 sm:py-8">
+              <Skeleton className="h-9 w-32" />
+              <Skeleton className="mt-8 h-4 w-12" />
+              <Skeleton className="mt-4 h-12 w-full" />
+              <Skeleton className="mt-6 h-12 w-full" />
+            </div>
+          </ClerkLoading>
+          <ClerkLoaded>{children}</ClerkLoaded>
           <div className="flex justify-center rounded-lg bg-slate-100 py-6">
             <span className="text-sm font-normal text-gray-500">
               Não possui conta?{' '}
