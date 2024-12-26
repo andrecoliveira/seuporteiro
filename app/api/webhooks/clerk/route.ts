@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server'
 
-import { createStripeCustomer } from '@/actions/create-stripe-customer'
-import { createTenant } from '@/actions/create-tenant'
 import { createtUser } from '@/actions/create-user'
 
 import { validateWebhook } from '@/utils/svix'
@@ -24,27 +22,15 @@ export async function POST(req: Request) {
 
   if (eventType === 'user.created') {
     try {
-      // Criar cliente no Stripe
-      const stripeCustomer = await createStripeCustomer({
-        email,
-        firstName,
-        lastName,
-        clerkId,
-      })
-
-      // Criar tenant no Supabase
-      const tenant = await createTenant(stripeCustomer.id)
-
-      // Criar usuário no Supabase
+      // Cria usuário no Supabase
       await createtUser({
         email,
         firstName,
         lastName,
         profileImageUrl,
         clerkId,
-        tenantId: tenant.id,
       })
-
+      console.log(`${email} - User created successfully`)
       return NextResponse.json(
         { message: 'User created successfully' },
         { status: 200 },
@@ -57,7 +43,6 @@ export async function POST(req: Request) {
     }
   }
 
-  console.log(`${email_addresses} - Webhook processed successfully`)
   return NextResponse.json(
     { message: 'Webhook processed successfully' },
     { status: 200 },

@@ -1,7 +1,9 @@
 import { supabaseClient } from '@/lib/supabaseClient'
 import { User } from '@/types/user'
 
-export const createtUser = async (formData: Omit<User, 'stripeCustomerId'>) => {
+export const createtUser = async (
+  formData: Omit<User, 'stripeCustomerId' | 'tenantId'>,
+) => {
   const response = await supabaseClient.from('users').insert([
     {
       email: formData.email,
