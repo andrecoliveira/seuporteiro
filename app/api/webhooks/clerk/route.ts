@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-// import { createtUser } from '@/actions/create-user'
+import { createtUser } from '@/actions/create-user'
 
 import { validateWebhook } from '@/utils/svix'
 
@@ -13,23 +13,23 @@ export async function POST(req: Request) {
   // Extração de dados do payload
   const {
     email_addresses,
-    // first_name: firstName,
-    // last_name: lastName,
-    // profile_image_url: profileImageUrl,
-    // id: clerkId,
+    first_name: firstName,
+    last_name: lastName,
+    profile_image_url: profileImageUrl,
+    id: clerkId,
   } = payload?.data || {}
   const email = email_addresses?.[0]?.email_address
 
   if (eventType === 'user.created') {
     try {
       // Cria usuário no Supabase
-      // await createtUser({
-      //   email,
-      //   firstName,
-      //   lastName,
-      //   profileImageUrl,
-      //   clerkId,
-      // })
+      await createtUser({
+        email,
+        firstName,
+        lastName,
+        profileImageUrl,
+        clerkId,
+      })
       console.log(`${email} - User created successfully`)
       return NextResponse.json(
         { message: 'User created successfully' },
