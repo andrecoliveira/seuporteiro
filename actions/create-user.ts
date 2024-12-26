@@ -1,10 +1,15 @@
-import { supabaseClient } from '@/lib/supabaseClient'
 import { User } from '@/types/user'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+)
 
 export const createtUser = async (
   formData: Omit<User, 'stripeCustomerId' | 'tenantId'>,
 ) => {
-  const response = await supabaseClient.from('users').insert([
+  const response = await supabase.from('users').insert([
     {
       email: formData.email,
       first_name: formData.firstName,
