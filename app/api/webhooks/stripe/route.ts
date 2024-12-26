@@ -100,12 +100,3 @@ async function handleCheckoutSessionCompleted(
     timestamp: Date.now(),
   })
 }
-
-// Analytics helper
-export async function getWebhookStats() {
-  const [events, errors] = await Promise.all([
-    redis.hgetall('stripe:webhook:events'),
-    redis.get('stripe:webhook:errors'),
-  ])
-  return { events, errors }
-}

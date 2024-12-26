@@ -2,7 +2,7 @@ import stripe from '@/lib/stripe'
 import { User } from '@/types/user'
 
 export async function createStripeCustomer(
-  formData: Omit<User, 'profileImageUrl' | 'stripeCustomerId'>,
+  formData: Omit<User, 'profileImageUrl' | 'tenantId'>,
 ) {
   try {
     const stripeCustomer = await stripe.customers.create({
@@ -10,7 +10,7 @@ export async function createStripeCustomer(
       email: formData.email,
       description: 'Cadastrado por Mesa Certa',
       preferred_locales: ['pt-BR'],
-      metadata: { user_id: formData.userId },
+      metadata: { clerk_id: formData.clerkId },
     })
     if (!stripeCustomer.id) throw new Error('Error creating customer')
     return stripeCustomer

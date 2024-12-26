@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { createStripeCustomer } from '@/actions/create-stripe-customer'
+import { createTenant } from '@/actions/create-tenant'
 import { createtUser } from '@/actions/create-user'
 
 import { validateWebhook } from '@/utils/svix'
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
     first_name: firstName,
     last_name: lastName,
     profile_image_url: profileImageUrl,
-    id: userId,
+    id: clerkId,
   } = payload?.data || {}
   const email = email_addresses?.[0]?.email_address
 
@@ -28,17 +29,20 @@ export async function POST(req: Request) {
         email,
         firstName,
         lastName,
-        userId,
+        clerkId,
       })
 
-      // Inserir o usuário no Supabase
+      // Criar tenant no Supabase
+      const tenant = await createTenant(stripeCustomer.id)
+
+      // Criar usuário no Supabase
       await createtUser({
         email,
         firstName,
         lastName,
         profileImageUrl,
-        userId,
-        stripeCustomerId: stripeCustomer.id,
+        clerkId,
+        tenantId: tenant.id,
       })
 
       return NextResponse.json(
