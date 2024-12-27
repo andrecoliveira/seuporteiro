@@ -5,28 +5,6 @@ import { cache } from 'react'
 import stripe from '@/lib/stripe'
 import Stripe from 'stripe'
 
-import { createClient } from '@/utils/supabase/server'
-
-export const getUser = cache(async () => {
-  const supabase = await createClient()
-  const user = await supabase.auth.getUser()
-  if (!user) return { data: null }
-  const { data } = await supabase
-    .from('user')
-    .select('role, tenant_id(*)')
-    .eq('id', user.data.user?.id)
-    .single()
-  if (!data) return { data: null }
-  return {
-    data: {
-      user,
-      tenant: {
-        ...data.tenant_id,
-      },
-    },
-  }
-})
-
 export const getSubscription = cache(
   async (stripeId: string, status: Stripe.SubscriptionListParams.Status) => {
     try {

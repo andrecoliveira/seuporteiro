@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     first_name: firstName,
     last_name: lastName,
     profile_image_url: profileImageUrl,
-    id: clerkId,
+    id: userId,
   } = payload?.data || {}
   const email = email_addresses?.[0]?.email_address
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         firstName,
         lastName,
         profileImageUrl,
-        clerkId,
+        userId,
       })
       console.log(`${email} - User created successfully`)
       return NextResponse.json(

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 
+import { createTenant } from '@/actions/create-tenant'
 import stripe from '@/lib/stripe'
 import { redis } from '@/lib/upstash'
 import Stripe from 'stripe'
@@ -61,12 +62,19 @@ export async function POST(req: Request) {
     switch (type) {
       case 'customer.created': {
         const customer = data.object as Stripe.Customer
+        const { data: tenant } = await createTenant(customer.id)
+        await stripe.customers.update(customer.id, {
+          preferred_locales: ['pt-BR'],
+          metadata: { tenant_id: tenant.id },
+        })
         await redis.hset(`stripe:customers:${customer.id}`, {
           email: customer.email,
           created: Date.now(),
         })
         break
       }
+
+      case 'customer.subscription.updated':
 
       case 'checkout.session.completed':
         await handleCheckoutSessionCompleted(session)

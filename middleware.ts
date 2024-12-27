@@ -1,27 +1,56 @@
 import { NextResponse } from 'next/server'
 
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { createClient } from '@supabase/supabase-js'
 
 import { APP_ROUTES } from './app/constants'
 
-import { getSubscription } from './actions/get-subscription'
-
 const isProtectedRoute = createRouteMatcher(['/painel(.*)'])
 
-export default clerkMiddleware(async (auth, req) => {
-  const { userId } = await auth()
+const privateRoute = APP_ROUTES.private.painel
+const signInRoute = APP_ROUTES.public.signIn
+const pricingRoute = APP_ROUTES.private.subscription
 
-  const privateRoute = APP_ROUTES.private.painel
-  const signInRoute = APP_ROUTES.public.signIn
-  const pricingRoute = APP_ROUTES.private.subscription
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, getToken } = await auth()
+
+  const client = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      global: {
+        // Get the custom Supabase token from Clerk
+        fetch: async (url, options = {}) => {
+          const clerkToken = await getToken({
+            template: 'supabase',
+          })
+
+          // Insert the Clerk Supabase token into the headers
+          const headers = new Headers(options?.headers)
+          headers.set('Authorization', `Bearer ${clerkToken}`)
+
+          // Now call the default fetch
+          return fetch(url, {
+            ...options,
+            headers,
+          })
+        },
+      },
+    },
+  )
+
+  const { data: subscription } = await client
+    .from('subscriptions')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('status', 'active')
+    .single()
 
   if (req.nextUrl.pathname === '/' && !userId) {
     return NextResponse.redirect(new URL(signInRoute, req.url))
   }
 
   if (userId) {
-    const subscription = await getSubscription(userId)
-
     // Se não tiver assinatura e não estiver na página de pricing
     if (!subscription && !req.nextUrl.pathname.startsWith(pricingRoute)) {
       return NextResponse.redirect(new URL(pricingRoute, req.url))

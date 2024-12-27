@@ -3,6 +3,6 @@ export interface User {
   firstName: string
   lastName: string
   profileImageUrl: string
-  clerkId: string
+  userId: string
   tenantId: string
 }
