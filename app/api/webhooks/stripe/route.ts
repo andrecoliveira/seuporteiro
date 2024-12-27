@@ -61,6 +61,7 @@ export async function POST(req: Request) {
 
     switch (type) {
       case 'customer.created': {
+        console.log('Customer created', data.object.email)
         const customer = data.object as Stripe.Customer
         const { data: tenant } = await createTenant(customer.id)
         await stripe.customers.update(customer.id, {
@@ -74,9 +75,8 @@ export async function POST(req: Request) {
         break
       }
 
-      case 'customer.subscription.updated':
-
-      case 'checkout.session.completed':
+      case 'checkout.session.completed': {
+        console.log('Checkout session completed', session.customer_email)
         await handleCheckoutSessionCompleted(session)
         // Cache successful checkout sessions
         await redis.set(
@@ -85,6 +85,7 @@ export async function POST(req: Request) {
           { ex: 86400 }, // 24 hours
         )
         break
+      }
     }
 
     // Mark webhook as processed
