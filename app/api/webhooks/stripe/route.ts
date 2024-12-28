@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       case 'customer.created': {
         const customer = data.object as Stripe.Customer
         console.log('Customer created', customer.email)
-        const { data: user } = await getUserByEmail(customer.email || '')
+        const user = await getUserByEmail(customer.email as string)
         if (user.id) {
           const { data: tenant } = await createTenant(customer.id)
           await updateUser(user.id, { tenant_id: tenant.id })

@@ -11,6 +11,7 @@ export const getUserByEmail = async (email: string) => {
     console.error('Error getting user from Supabase:', error)
     throw new Error(error.message)
   }
+  console.log('Data:', data)
   return data
 }
 
@@ -22,11 +23,11 @@ export const createtUser = async (formData: Partial<User>) => {
   }
 }
 
-export const updateUser = async (userId: string, formData: Partial<User>) => {
+export const updateUser = async (id: string, formData: Partial<User>) => {
   const response = await supabaseAdmin
     .from('users')
     .update(formData)
-    .eq('user_id', userId)
+    .eq('id', id)
   if (response.error) {
     console.error('Error updating user in Supabase:', response.error)
     throw new Error(response.error.message)
