@@ -1,10 +1,18 @@
 import { NextResponse } from 'next/server'
 
-// import { createTenant } from '@/actions/create-tenant'
+import { createTenant } from '@/actions/create-tenant'
+import { updateUser } from '@/actions/user'
 import stripe from '@/lib/stripe'
+import { auth } from '@clerk/nextjs/server'
 import Stripe from 'stripe'
 
 export async function POST(req: Request) {
+  const { userId } = await auth()
+
+  if (!userId) {
+    return Response.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const body = await req.text()
     const signature = req.headers.get('Stripe-signature') as string
@@ -21,21 +29,21 @@ export async function POST(req: Request) {
     }
 
     const { type, data } = event
-    const session = data.object as Stripe.Checkout.Session
 
     switch (type) {
       case 'customer.created': {
-        console.log('Customer created', data.object.email)
-        // const customer = data.object as Stripe.Customer
-        // const { data: tenant } = await createTenant(customer.id)
-        // await stripe.customers.update(customer.id, {
-        //   preferred_locales: ['pt-BR'],
-        //   metadata: { tenant_id: tenant.id },
-        // })
+        const customer = data.object as Stripe.Customer
+        console.log('Customer created', customer.email)
+        const { data: tenant } = await createTenant(customer.id)
+        await updateUser(userId, { tenant_id: tenant.id })
+        await stripe.customers.update(customer.id, {
+          metadata: { tenant_id: tenant.id, user_id: userId },
+        })
         break
       }
 
       case 'checkout.session.completed': {
+        const session = data.object as Stripe.Checkout.Session
         console.log('Checkout session completed', session.customer_email)
         break
       }
