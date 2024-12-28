@@ -1,18 +1,11 @@
 import { NextResponse } from 'next/server'
 
 import { createTenant } from '@/actions/create-tenant'
-import { updateUser } from '@/actions/user'
+import { getUserByEmail, updateUser } from '@/actions/user'
 import stripe from '@/lib/stripe'
-import { auth } from '@clerk/nextjs/server'
 import Stripe from 'stripe'
 
 export async function POST(req: Request) {
-  const { userId } = await auth()
-
-  if (!userId) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
     const body = await req.text()
     const signature = req.headers.get('Stripe-signature') as string
@@ -34,11 +27,15 @@ export async function POST(req: Request) {
       case 'customer.created': {
         const customer = data.object as Stripe.Customer
         console.log('Customer created', customer.email)
-        const { data: tenant } = await createTenant(customer.id)
-        await updateUser(userId, { tenant_id: tenant.id })
-        await stripe.customers.update(customer.id, {
-          metadata: { tenant_id: tenant.id, user_id: userId },
-        })
+        const { data: user } = await getUserByEmail(customer.email || '')
+        if (user.id) {
+          const { data: tenant } = await createTenant(customer.id)
+          await updateUser(user.id, { tenant_id: tenant.id })
+          await stripe.customers.update(customer.id, {
+            preferred_locales: ['pt-BR'],
+            metadata: { tenant_id: tenant.id, user_id: user.id },
+          })
+        }
         break
       }
 

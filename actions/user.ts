@@ -1,6 +1,19 @@
 import { supabaseAdmin } from '@/lib/supabaseClient'
 import { User } from '@/types/user'
 
+export const getUserByEmail = async (email: string) => {
+  const { data, error } = await supabaseAdmin
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .single()
+  if (error) {
+    console.error('Error getting user from Supabase:', error)
+    throw new Error(error.message)
+  }
+  return data
+}
+
 export const createtUser = async (formData: Partial<User>) => {
   const response = await supabaseAdmin.from('users').insert([formData])
   if (response.error) {
