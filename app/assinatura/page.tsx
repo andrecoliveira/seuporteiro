@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { listPrices } from '@/actions/list-prices'
+import { listProducts } from '@/actions/list-products'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -15,7 +17,15 @@ import { CircleUser, LogOut } from 'lucide-react'
 
 import PricingTable from './pricing-table'
 
-export default function PlansPage() {
+export default async function PlansPage() {
+  const products = await listProducts()
+  const prices = await listPrices()
+
+  const basicPlan = prices.filter((price) => price.product === products[0].id)
+  const premiumPlan = prices.filter((price) => price.product === products[1].id)
+
+  console.log(basicPlan)
+
   return (
     <div className="min-h-screen bg-black">
       <header className="body-font text-gray-600">
@@ -77,7 +87,29 @@ export default function PlansPage() {
             Escolha o melhor plano para o seu negócio
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
-          <PricingTable />
+          <PricingTable
+            plans={[
+              {
+                title: products[0].name,
+                description: products[0].description,
+                monthlyPrice: basicPlan[1].unit_amount,
+                monthlyPriceId: basicPlan[1].id,
+                yearlyPrice: basicPlan[0].unit_amount,
+                yearlyPriceId: basicPlan[0].id,
+                features: products[0].marketing_features,
+              },
+              {
+                title: products[1].name,
+                description: products[1].description,
+                monthlyPrice: premiumPlan[1].unit_amount,
+                monthlyPriceId: premiumPlan[1].id,
+                yearlyPrice: premiumPlan[0].unit_amount,
+                yearlyPriceId: premiumPlan[0].id,
+                features: products[1].marketing_features,
+              },
+            ]}
+          />
+          <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
         </div>
       </main>
       <footer className="text-gray-600">
