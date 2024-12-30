@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
 import stripe from '@/lib/stripe'
-import Stripe from 'stripe'
-import { clerkClient } from '@clerk/nextjs/server'
 import { supabaseAdmin } from '@/lib/supabaseClient'
+import { clerkClient } from '@clerk/nextjs/server'
+import Stripe from 'stripe'
 
 export async function POST(req: Request) {
   try {
@@ -15,13 +15,13 @@ export async function POST(req: Request) {
     let event: Stripe.Event
 
     try {
-      if (!signature || !webhookSecret)
+      if (!signature || !webhookSecret) {
         return new Response('Webhook secret not found.', { status: 400 })
+      }
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
       console.log(` Webhook received: ${event.type}`)
-    } catch (err: any) {
-      console.log(`Error message: ${err.message}`)
-      return new Response(`Webhook Error: ${err.message}`, { status: 400 })
+    } catch {
+      return new Response(`Webhook Error`, { status: 400 })
     }
 
     const { type, data } = event
