@@ -56,28 +56,18 @@ export async function POST(req: Request) {
 
       case 'checkout.session.completed': {
         const session = data.object as Stripe.Checkout.Session
-        console.log('Payload: ', {
-          status: session.payment_status,
-          user_id: session.metadata?.userId,
-          customer_id: session.customer as string,
-          customer_email: session.customer_email as string,
-          stripe_subscription_id: session.subscription,
-        })
-        const { data: response, error } = await supabaseAdmin
-          .from('subscriptions')
-          .insert([
-            {
-              status: session.payment_status,
-              user_id: session.metadata?.userId,
-              customer_id: session.customer as string,
-              customer_email: session.customer_email as string,
-              stripe_subscription_id: session.subscription,
-            },
-          ])
-          .select('*')
-          .single()
-        console.log(response, error)
-        console.log('Checkout session completed', session.customer_email)
+        const { error } = await supabaseAdmin.from('subscriptions').insert([
+          {
+            status: session.payment_status,
+            user_id: session.metadata?.userId,
+            customer_id: session.customer as string,
+            customer_email: session.customer_email as string,
+            stripe_subscription_id: session.subscription,
+          },
+        ])
+        if (!error) {
+          console.log('Checkout session completed', session.customer_email)
+        }
         break
       }
     }
