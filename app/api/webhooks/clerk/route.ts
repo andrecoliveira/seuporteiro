@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const { payload, eventType } = await validateWebhook(req)
 
   // Extração de dados do payload
-  const { email_addresses, id: user_id } = payload?.data || {}
+  const { email_addresses } = payload?.data || {}
   const email = email_addresses?.[0]?.email_address
 
   if (eventType === 'user.created') {
