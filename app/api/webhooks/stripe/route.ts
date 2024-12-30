@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
-import { createTenant } from '@/actions/create-tenant'
-import { getUserByEmail, updateUser } from '@/actions/user'
 import stripe from '@/lib/stripe'
 import Stripe from 'stripe'
+import { clerkClient } from '@clerk/nextjs/server'
+import { supabaseAdmin } from '@/lib/supabaseClient'
 
 export async function POST(req: Request) {
   try {
@@ -23,24 +23,45 @@ export async function POST(req: Request) {
 
     const { type, data } = event
 
+    const client = await clerkClient()
+
     switch (type) {
       case 'customer.created': {
         const customer = data.object as Stripe.Customer
-        console.log('Customer created', customer.email)
-        const user = await getUserByEmail(customer.email as string)
+        const {
+          data: [user],
+        } = await client.users.getUserList({
+          emailAddress: [customer.email as string],
+        })
         if (user.id) {
-          const { data: tenant } = await createTenant(customer.id)
-          await updateUser(user.id, { tenant_id: tenant.id })
+          console.log('Customer Stripe', user)
+          await client.users.updateUser(user.id, {
+            publicMetadata: {
+              stripeCustomerId: customer.id,
+            },
+          })
           await stripe.customers.update(customer.id, {
             preferred_locales: ['pt-BR'],
-            metadata: { tenant_id: tenant.id, user_id: user.id },
+            metadata: {
+              userId: user.id,
+            },
           })
+          console.log('Customer created', customer.email)
         }
         break
       }
 
       case 'checkout.session.completed': {
         const session = data.object as Stripe.Checkout.Session
+        supabaseAdmin.from('subscriptions').insert([
+          {
+            status: session.payment_status,
+            user_id: session.metadata?.userId,
+            customer_id: session.customer as string,
+            customer_email: session.customer_email as string,
+            stripe_subscription_id: session.subscription,
+          },
+        ])
         console.log('Checkout session completed', session.customer_email)
         break
       }
