@@ -39,14 +39,14 @@ function PlanCard({
   const period = isYearly ? 'ano' : 'mês'
 
   return (
-    <div className="relative flex h-full flex-col overflow-hidden p-6">
+    <div className="relative flex h-full flex-col overflow-hidden lg:p-6">
       <h2 className="mb-4 text-left text-xl font-medium">{plan.title}</h2>
-      <p className="text-md min-h-28 text-left text-stone-400">
+      <p className="text-md text-left text-stone-400 lg:min-h-28">
         {plan.description}
       </p>
 
       {price && (
-        <h1 className="flex items-end">
+        <h1 className="mt-8 flex items-end lg:mt-0">
           <span className="text-3xl font-extrabold text-white">
             {formatCurrency(price)}
           </span>
@@ -112,8 +112,8 @@ export default function PricingTable({ plans }: Props) {
         </TabsList>
       </Tabs>
 
-      <section className="flex justify-center">
-        <div className="grid w-6/12 grid-cols-1 lg:grid-cols-2">
+      <section className="flex lg:justify-center">
+        <div className="grid grid-cols-1 gap-14 lg:w-6/12 lg:grid-cols-2 lg:gap-2">
           {plans.map((plan) => {
             const currentPriceId = isYearly
               ? plan.yearlyPriceId
