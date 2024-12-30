@@ -8,17 +8,20 @@ import { supabaseAdmin } from '@/lib/supabaseClient'
 export async function POST(req: Request) {
   try {
     const body = await req.text()
-    const signature = req.headers.get('Stripe-signature') as string
+    const signature = req.headers.get('stripe-signature') as string
+
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
     let event: Stripe.Event
+
     try {
-      event = stripe.webhooks.constructEvent(
-        body,
-        signature,
-        process.env.STRIPE_WEBHOOK_SECRET!,
-      )
-    } catch {
-      return new NextResponse('Invalid signature', { status: 400 })
+      if (!signature || !webhookSecret)
+        return new Response('Webhook secret not found.', { status: 400 })
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+      console.log(` Webhook received: ${event.type}`)
+    } catch (err: any) {
+      console.log(`Error message: ${err.message}`)
+      return new Response(`Webhook Error: ${err.message}`, { status: 400 })
     }
 
     const { type, data } = event
