@@ -26,6 +26,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: errorMessage }, { status: 500 })
     }
   }
+  if (eventType === 'organization.created') {
+    console.log(payload)
+  }
 
   return NextResponse.json(
     { message: 'Webhook processed successfully' },
