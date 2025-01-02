@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+import { supabaseAdmin } from '@/lib/supabaseClient'
+import { clerkClient } from '@clerk/nextjs/server'
+
 import { validateWebhook } from '@/utils/svix'
 
 export async function POST(req: Request) {
@@ -27,7 +30,18 @@ export async function POST(req: Request) {
     }
   }
   if (eventType === 'organization.created') {
-    console.log(payload)
+    const orgId = payload?.data?.id
+    const { data } = await supabaseAdmin
+      .from('subscriptions')
+      .select('status')
+      .eq('org_id', orgId)
+      .single()
+    const client = await clerkClient()
+    client.organizations.updateOrganizationMetadata(orgId, {
+      publicMetadata: {
+        subscriptionStatus: data?.status,
+      },
+    })
   }
 
   return NextResponse.json(
