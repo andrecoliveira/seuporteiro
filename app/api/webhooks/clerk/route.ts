@@ -12,12 +12,22 @@ export async function POST(req: Request) {
   const { payload, eventType } = await validateWebhook(req)
 
   // Extração de dados do payload
-  const { email_addresses } = payload?.data || {}
+  const { email_addresses, id, first_name, last_name, profile_image_url } =
+    payload?.data || {}
   const email = email_addresses?.[0]?.email_address
 
   if (eventType === 'user.created') {
     try {
-      console.log(`${email} - User created successfully`)
+      const { error } = await supabaseAdmin.from('users').insert([
+        {
+          user_id: id,
+          first_name,
+          last_name,
+          profile_image_url,
+          email,
+        },
+      ])
+      if (!error) console.log(`${email} - User created successfully`)
       return NextResponse.json(
         { message: 'User created successfully' },
         { status: 200 },
