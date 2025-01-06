@@ -20,9 +20,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
               <Skeleton className="h-9 w-32" />
               <Skeleton className="mt-8 h-4 w-12" />
               <Skeleton className="mt-4 h-12 w-full" />
-              <Skeleton className="mt-6 h-4 w-12" />
+              <Skeleton className="mt-4 h-4 w-12" />
               <Skeleton className="mt-4 h-12 w-full" />
-              <Skeleton className="mt-6 h-12 w-full" />
+              <Skeleton className="mt-4 h-12 w-full" />
             </div>
           </ClerkLoading>
           <ClerkLoaded>{children}</ClerkLoaded>
