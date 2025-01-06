@@ -1,10 +1,7 @@
 import { auth } from '@clerk/nextjs/server'
 import { createClient } from '@supabase/supabase-js'
 
-export async function createClerkSupabaseClientSsr() {
-  // The `useAuth()` hook is used to access the `getToken()` method
-  const { getToken } = await auth()
-
+export function createClientServer(token: string) {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -12,13 +9,9 @@ export async function createClerkSupabaseClientSsr() {
       global: {
         // Get the custom Supabase token from Clerk
         fetch: async (url, options = {}) => {
-          const clerkToken = await getToken({
-            template: 'supabase',
-          })
-
           // Insert the Clerk Supabase token into the headers
           const headers = new Headers(options?.headers)
-          headers.set('Authorization', `Bearer ${clerkToken}`)
+          headers.set('Authorization', `Bearer ${token}`)
 
           // Now call the default fetch
           return fetch(url, {
@@ -29,4 +22,24 @@ export async function createClerkSupabaseClientSsr() {
       },
     },
   )
+}
+
+export async function getAuth() {
+  const { getToken, userId } = await auth()
+  const token = await getToken({
+    template: 'supabase',
+  })
+  return {
+    token,
+    userId,
+  }
+}
+
+export async function createClerkSupabaseClientSsr() {
+  // The `useAuth()` hook is used to access the `getToken()` method
+  const { getToken } = await auth()
+  const token = await getToken({
+    template: 'supabase',
+  })
+  return createClientServer(token as string)
 }
