@@ -46,19 +46,6 @@ function isSupportedEvent(eventType: string): eventType is EventType {
   return SUPPORTED_EVENTS.includes(eventType as EventType)
 }
 
-// Type guard para verificar se o payload é do tipo `UserCreatedPayload`
-function isUserCreatedPayload(
-  payload: WebhookPayload,
-): payload is UserCreatedPayload {
-  return (
-    'email_addresses' in payload &&
-    'first_name' in payload &&
-    'last_name' in payload &&
-    'profile_image_url' in payload &&
-    'public_metadata' in payload
-  )
-}
-
 // Type guard para verificar se o payload é do tipo `OrganizationCreatedPayload`
 function isOrganizationCreatedPayload(
   payload: WebhookPayload,
@@ -158,9 +145,11 @@ export async function POST(req: Request) {
     }
 
     // Identifica e processa o evento correspondente
-    if (eventType === 'user.created' && isUserCreatedPayload(payload)) {
-      const message = await handleUserCreated(payload)
-      return jsonResponse({ message })
+    if (eventType === 'user.created') {
+      if ('email_addresses' in payload) {
+        const message = await handleUserCreated(payload)
+        return jsonResponse({ message })
+      }
     }
 
     if (
