@@ -1,4 +1,5 @@
-export interface User {
-  email: string
-  user_id: string
+import { UserJSON } from '@clerk/nextjs/server'
+
+export interface User extends UserJSON {
+  profile_image_url: string
 }

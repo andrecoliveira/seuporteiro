@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
-import { listPrices } from '@/actions/list-prices'
-import { listProducts } from '@/actions/list-products'
+// import { listPrices } from '@/actions/list-prices'
+// import { listProducts } from '@/actions/list-products'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -15,16 +15,16 @@ import { logo } from '@/images'
 import { SignOutButton } from '@clerk/nextjs'
 import { CircleUser, LogOut } from 'lucide-react'
 
-import PricingTable from './pricing-table'
+// import PricingTable from './pricing-table'
 
 export default async function PlansPage() {
-  const products = await listProducts()
-  const prices = await listPrices()
+  // const products = await listProducts()
+  // const prices = await listPrices()
 
-  const basicPlan = prices.filter((price) => price.product === products[0].id)
-  const premiumPlan = prices.filter((price) => price.product === products[1].id)
+  // const basicPlan = prices.filter((price) => price.product === products[0].id)
+  // const premiumPlan = prices.filter((price) => price.product === products[1].id)
 
-  console.log(basicPlan)
+  // console.log(basicPlan)
 
   return (
     <div className="min-h-screen bg-black">
@@ -87,7 +87,7 @@ export default async function PlansPage() {
             Escolha o melhor plano para o seu negócio
           </h2>
           <p>Assine agora e comece a aproveitar todos os benefícios!</p>
-          <PricingTable
+          {/* <PricingTable
             plans={[
               {
                 title: products[0].name,
@@ -108,7 +108,7 @@ export default async function PlansPage() {
                 features: products[1].marketing_features,
               },
             ]}
-          />
+          /> */}
           <p>Cancele quando quiser, de forma simples e sem burocracias.</p>
         </div>
       </main>
