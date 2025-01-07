@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 
-import { edgeConfig } from '@/actions/edge-config'
+// import { edgeConfig } from '@/actions/edge-config'
 import { supabaseAdmin } from '@/lib/supabaseClient'
+import { redis } from '@/lib/upstash'
 import { clerkClient } from '@clerk/nextjs/server'
 
 import { validateWebhook } from '@/utils/svix'
@@ -26,11 +27,12 @@ export async function POST(req: Request) {
   if (eventType === 'user.created') {
     try {
       if (!public_metadata.org_id) {
-        await edgeConfig({
-          operation: 'create',
-          key: id,
-          value: false,
-        })
+        // await edgeConfig({
+        //   operation: 'create',
+        //   key: id,
+        //   value: false,
+        // })
+        await redis.set(id, false)
       }
       const { error } = await supabaseAdmin.from('users').insert([
         {
