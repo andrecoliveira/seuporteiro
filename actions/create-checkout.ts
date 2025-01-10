@@ -23,14 +23,14 @@ export const createCheckout = async ({
       locale: 'pt-BR',
       customer_email: customerEmail,
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/assinatura/checkout/concluido?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/onboarding/concluido?session_id={CHECKOUT_SESSION_ID}`,
       allow_promotion_codes: true,
       payment_method_types: ['card'],
       currency: 'BRL',
       metadata: {
         userId,
       },
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/assinatura`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/onboarding/planos`,
       phone_number_collection: { enabled: true },
     })
     return session.url

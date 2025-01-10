@@ -39,18 +39,16 @@ function PlanCard({
   const period = isYearly ? 'ano' : 'mês'
 
   return (
-    <div className="relative flex h-full flex-col overflow-hidden lg:p-6">
-      <h2 className="mb-4 text-left text-xl font-medium">{plan.title}</h2>
-      <p className="text-md text-left text-stone-400 lg:min-h-28">
-        {plan.description}
-      </p>
+    <div className="relative flex h-full flex-col overflow-hidden rounded-lg bg-gray-100 lg:p-6">
+      <h2 className="mb-4 text-left text-lg font-medium">{plan.title}</h2>
+      <p className="text-md mb-6 text-left text-gray-500">{plan.description}</p>
 
       {price && (
         <h1 className="mt-8 flex items-end lg:mt-0">
-          <span className="text-3xl font-extrabold text-white">
+          <span className="text-2xl font-extrabold">
             {formatCurrency(price)}
           </span>
-          <span className="text-md ml-2 font-normal text-stone-400">
+          <span className="text-md ml-2 font-normal text-gray-500">
             por {period}
           </span>
         </h1>
@@ -67,8 +65,11 @@ function PlanCard({
 
       <p className="my-2 text-left">Inclui:</p>
       {plan.features.map((feature) => (
-        <p className="mb-2 flex items-center text-gray-300" key={feature.name}>
-          <CircleCheck color="#DE4D4D" className="mr-2" />
+        <p
+          className="mb-2 flex items-center text-sm text-gray-500"
+          key={feature.name}
+        >
+          <CircleCheck color="#DE4D4D" className="mr-1 h-4" />
           {feature.name}
         </p>
       ))}
@@ -97,39 +98,35 @@ export default function PricingTable({ plans }: Props) {
 
   return (
     <>
-      <Tabs
-        defaultValue="0"
-        className="my-8"
-        onValueChange={(v) => setIsYearly(v === '1')}
-      >
-        <TabsList className="mb-4 h-12 bg-stone-700">
-          <TabsTrigger value="0" className="h-10">
-            Mensalmente
-          </TabsTrigger>
-          <TabsTrigger value="1" className="h-10">
-            Anualmente
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className="flex justify-center">
+        <Tabs defaultValue="0" onValueChange={(v) => setIsYearly(v === '1')}>
+          <TabsList className="mb-4 h-12 bg-gray-100">
+            <TabsTrigger value="0" className="h-10">
+              Mensalmente
+            </TabsTrigger>
+            <TabsTrigger value="1" className="h-10">
+              Anualmente
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
-      <section className="flex lg:justify-center">
-        <div className="grid grid-cols-1 gap-14 lg:w-6/12 lg:grid-cols-2 lg:gap-2">
-          {plans.map((plan) => {
-            const currentPriceId = isYearly
-              ? plan.yearlyPriceId
-              : plan.monthlyPriceId
+      <section className="space-y-4">
+        {plans.map((plan) => {
+          const currentPriceId = isYearly
+            ? plan.yearlyPriceId
+            : plan.monthlyPriceId
 
-            return (
-              <PlanCard
-                key={plan.title}
-                plan={plan}
-                isYearly={isYearly}
-                onSubscribe={() => handleSubscribe(currentPriceId)}
-                isLoading={loadingPriceId === currentPriceId}
-              />
-            )
-          })}
-        </div>
+          return (
+            <PlanCard
+              key={plan.title}
+              plan={plan}
+              isYearly={isYearly}
+              onSubscribe={() => handleSubscribe(currentPriceId)}
+              isLoading={loadingPriceId === currentPriceId}
+            />
+          )
+        })}
       </section>
     </>
   )

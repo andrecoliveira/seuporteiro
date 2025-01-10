@@ -1,7 +1,11 @@
 export const APP_ROUTES = {
   private: {
     painel: '/painel',
-    subscription: '/assinatura',
+    onboarding: {
+      initial: '/onboarding',
+      plans: '/onboarding/planos',
+      accomplished: '/onboarding/concluido',
+    },
     restaurant: '/painel/restaurante',
     reservas: '/reservas',
   },

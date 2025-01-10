@@ -2,9 +2,8 @@ import { NextResponse } from 'next/server'
 
 import { createUserByWebhook } from '@/actions/user'
 import { userAdapter } from '@/data/adapters/clerk'
-// import { supabaseAdmin } from '@/lib/supabaseClient'
 import { redis } from '@/lib/upstash'
-// import { clerkClient } from '@clerk/nextjs/server'
+import { Step } from '@/types/steps'
 
 import { handleError } from '@/utils/handle-errors'
 import { validateWebhook } from '@/utils/svix'
@@ -17,7 +16,9 @@ export async function POST(req: Request) {
   if (eventType === 'user.created') {
     const client = userAdapter(payload?.data)
     try {
-      if (!client.publicMetadata.org_id) await redis.set(client.id, false)
+      if (!client.publicMetadata.org_id) {
+        await redis.set(client.id, Step.ONBOARDING)
+      }
       await createUserByWebhook(payload?.data)
       console.log(`${client.email} - User created successfully`)
       return NextResponse.json(
