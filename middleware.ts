@@ -9,7 +9,7 @@ import { redis } from './lib/upstash'
 const isProtectedRoute = createRouteMatcher(['/painel(.*)', '/onboarding(.*)'])
 
 function redirectTo(url: string, req: Request) {
-  return NextResponse.redirect(new URL(url, req.url))
+  return NextResponse.rewrite(new URL(url, req.url))
 }
 
 export default clerkMiddleware(async (auth, req) => {
@@ -18,7 +18,7 @@ export default clerkMiddleware(async (auth, req) => {
   // Verifica se o usuário está autenticado
   if (!userId) {
     if (req.nextUrl.pathname === '/' || isProtectedRoute(req)) {
-      return redirectTo(APP_ROUTES.public.signIn, req)
+      return NextResponse.rewrite(new URL(APP_ROUTES.public.signIn, req.url))
     }
     return NextResponse.next()
   }
