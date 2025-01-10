@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import stripe from '@/lib/stripe'
 import { supabaseAdmin } from '@/lib/supabaseClient'
+import { redis } from '@/lib/upstash'
+import { Step } from '@/types/steps'
 import { clerkClient } from '@clerk/nextjs/server'
 import Stripe from 'stripe'
 
@@ -67,6 +69,12 @@ export async function POST(req: Request) {
         ])
         if (!error) {
           console.log('Checkout session completed', session.customer_email)
+        }
+        if (session.metadata?.userId) {
+          await redis.set(
+            session.metadata?.userId,
+            Step.ONBOARDING_ACCOMPLISHED,
+          )
         }
         break
       }
