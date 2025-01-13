@@ -7,6 +7,9 @@ import { APP_ROUTES } from './app/constants'
 import { redis } from './lib/upstash'
 
 const isProtectedRoute = createRouteMatcher(['/painel(.*)', '/onboarding(.*)'])
+const isApiRoute = (pathname: string) => pathname.startsWith('/api')
+const isOnboardingRoute = (pathname: string) =>
+  pathname.startsWith('/onboarding')
 
 function redirectTo(url: string, req: Request) {
   return NextResponse.rewrite(new URL(url, req.url))
@@ -14,10 +17,19 @@ function redirectTo(url: string, req: Request) {
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth()
+  const pathname = req.nextUrl.pathname
+
+  // Permitir acesso às rotas da API se autenticado
+  if (isApiRoute(pathname)) {
+    if (userId) {
+      return NextResponse.next()
+    }
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
 
   // Verifica se o usuário está autenticado
   if (!userId) {
-    if (req.nextUrl.pathname === '/' || isProtectedRoute(req)) {
+    if (pathname === '/' || isProtectedRoute(req)) {
       return NextResponse.rewrite(new URL(APP_ROUTES.public.signIn, req.url))
     }
     return NextResponse.next()
@@ -27,10 +39,7 @@ export default clerkMiddleware(async (auth, req) => {
   const onboarding = await redis.get<number>(userId)
 
   if (onboarding) {
-    if (
-      onboarding === 1 &&
-      req.nextUrl.pathname === APP_ROUTES.private.onboarding.plans
-    ) {
+    if (onboarding === 1 && pathname === APP_ROUTES.private.onboarding.plans) {
       return redirectTo(APP_ROUTES.private.onboarding.plans, req)
     }
 
@@ -44,8 +53,12 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Se não for rota protegida e estiver autenticado, redireciona para o painel
-  if (req.nextUrl.pathname === '/' || !isProtectedRoute(req)) {
-    return redirectTo(APP_ROUTES.private.painel, req)
+  if (
+    req.nextUrl.pathname === '/' ||
+    !isProtectedRoute(req) ||
+    isOnboardingRoute(pathname)
+  ) {
+    return NextResponse.redirect(new URL(APP_ROUTES.private.painel, req.url))
   }
 
   return NextResponse.next()

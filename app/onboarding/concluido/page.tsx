@@ -1,10 +1,14 @@
+'use client'
+
 import Image from 'next/image'
 
 import { congratulations, logotipo } from '@/images'
 
-import Form from './form'
+import useFormModel from './form.model'
+import Form from './form.view'
 
 export default function Page() {
+  const methods = useFormModel()
   return (
     <div className="space-y-8">
       <div className="w-full rounded-lg bg-white p-10 shadow">
@@ -22,7 +26,7 @@ export default function Page() {
         </div>
       </div>
       <div className="w-full rounded-lg bg-white p-10 shadow">
-        <Form />
+        <Form {...methods} />
       </div>
     </div>
   )

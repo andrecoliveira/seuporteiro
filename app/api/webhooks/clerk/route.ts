@@ -29,20 +29,6 @@ export async function POST(req: Request) {
       return handleError('Error creating user', error)
     }
   }
-  if (eventType === 'organization.created') {
-    // const orgId = payload?.data?.id
-    // const { data } = await supabaseAdmin
-    //   .from('subscriptions')
-    //   .select('status')
-    //   .eq('org_id', orgId)
-    //   .single()
-    // const client = await clerkClient()
-    // client.organizations.updateOrganizationMetadata(orgId, {
-    //   publicMetadata: {
-    //     subscriptionStatus: data?.status,
-    //   },
-    // })
-  }
 
   return NextResponse.json(
     { message: 'Webhook processed successfully' },
