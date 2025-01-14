@@ -19,12 +19,9 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth()
   const pathname = req.nextUrl.pathname
 
-  // Permitir acesso às rotas da API se autenticado
+  // Permitir acesso às rotas da API
   if (isApiRoute(pathname)) {
-    if (userId) {
-      return NextResponse.next()
-    }
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return NextResponse.next()
   }
 
   // Verifica se o usuário está autenticado
