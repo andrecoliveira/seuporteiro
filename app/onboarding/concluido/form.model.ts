@@ -1,9 +1,12 @@
+import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { z } from 'zod'
+
+import { APP_ROUTES } from '@/app/constants'
 
 export const formSchema = z.object({
   name: z.string(),
@@ -44,6 +47,7 @@ export default function useFormModel() {
       }
       const data = await response.json()
       console.log('Organização criada com sucesso:', data)
+      redirect(APP_ROUTES.private.painel)
     } catch (error) {
       console.error('Erro inesperado:', error)
     }
