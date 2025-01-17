@@ -5,8 +5,6 @@ import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 
-import { APP_ROUTES } from './constants'
-
 const inter = Inter({ subsets: ['latin'] })
 
 export const viewport: Viewport = {
@@ -27,9 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider
-      signUpForceRedirectUrl={APP_ROUTES.private.onboarding.initial}
-    >
+    <ClerkProvider>
       <html lang="en">
         <head>
           <link
