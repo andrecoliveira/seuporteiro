@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 import { useUser } from '@clerk/nextjs'
@@ -19,6 +19,7 @@ export const formSchema = z.object({
 })
 
 export default function useFormModel() {
+  const router = useRouter()
   const { user } = useUser()
   const form = useForm({
     defaultValues: {
@@ -47,7 +48,7 @@ export default function useFormModel() {
       }
       const data = await response.json()
       console.log('Organização criada com sucesso:', data)
-      redirect(APP_ROUTES.private.painel)
+      router.push(APP_ROUTES.private.painel)
     } catch (error) {
       console.error('Erro inesperado:', error)
     }
