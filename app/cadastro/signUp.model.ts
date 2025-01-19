@@ -15,7 +15,9 @@ import { BasicInformationForm, OtpCodeForm } from './signUp.types'
 
 export default function useSignUpModel() {
   const router = useRouter()
+  const [counter, setCounter] = useState(60)
   const { signUp, setActive } = useSignUp()
+
   const [step, setStep] = useState(Steps.BasicInformation)
 
   const basicInformationForm = useForm<BasicInformationForm>({
@@ -70,6 +72,14 @@ export default function useSignUpModel() {
     }
   }
 
+  const resendEmail = async () => {
+    await signUp?.prepareEmailAddressVerification({
+      strategy: 'email_code',
+    })
+    setCounter(60)
+    toast.success('Um novo e-mail com o código foi enviado para você')
+  }
+
   return {
     step,
     basicInformation: {
@@ -79,6 +89,9 @@ export default function useSignUpModel() {
     otpCode: {
       form: otpCodeForm,
       onSubmit: otpCodeSubmit,
+      resendEmail,
     },
+    counter,
+    setCounter,
   }
 }

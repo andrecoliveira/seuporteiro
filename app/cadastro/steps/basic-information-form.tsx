@@ -25,8 +25,8 @@ export default function BasicInformationPage(props: SignUpViewProps) {
           Forneça as informações iniciais para começarmos
         </p>
       </div>
-      <div className="mt-8 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="mt-4 space-y-4">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div className="space-y-1">
             <Label htmlFor="firstName">Nome</Label>
             <Input
@@ -73,9 +73,8 @@ export default function BasicInformationPage(props: SignUpViewProps) {
           />
         </div>
       </div>
-      <div id="clerk-captcha" />
       <SubmitButton
-        className="mt-12 h-12 w-full"
+        className="mt-6 h-12 w-full"
         isLoading={form.formState.isSubmitting}
       >
         Continuar

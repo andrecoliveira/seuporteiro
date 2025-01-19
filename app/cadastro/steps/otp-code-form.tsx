@@ -1,12 +1,8 @@
+import { useEffect } from 'react'
+
 import { SubmitButton } from '@/components/submit-button'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
+import { Button } from '@/components/ui'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import {
   InputOTP,
   InputOTPGroup,
@@ -17,8 +13,17 @@ import { SignUpViewProps } from '../signUp.types'
 
 export default function OtpCodeForm(props: SignUpViewProps) {
   const {
-    otpCode: { form, onSubmit },
+    otpCode: { form, onSubmit, resendEmail },
+    counter,
+    setCounter,
   } = props
+
+  useEffect(() => {
+    const timer =
+      counter > 0 ? setInterval(() => setCounter(counter - 1), 1000) : undefined
+    return () => clearInterval(timer)
+  }, [counter, setCounter])
+
   return (
     <>
       <div className="space-y-1">
@@ -29,21 +34,20 @@ export default function OtpCodeForm(props: SignUpViewProps) {
           Confirme seu e-mail
         </h4>
         <p className="text-sm text-gray-500">
-          Digite o código de validação que enviamos para o e-mail:
+          Digite o código de validação que enviamos para seu e-mail.
         </p>
       </div>
-      <div className="flex justify-center">
+      <div className="flex flex-col justify-center space-y-9">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col items-center space-y-12"
+            className="flex flex-col items-center space-y-9"
           >
             <FormField
               control={form.control}
               name="otpCode"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-center space-y-4">
-                  {/* <FormLabel>{form.watch('otpCode')}</FormLabel> */}
                   <FormControl>
                     <InputOTP maxLength={6} {...field}>
                       <InputOTPGroup>
@@ -56,13 +60,23 @@ export default function OtpCodeForm(props: SignUpViewProps) {
                       </InputOTPGroup>
                     </InputOTP>
                   </FormControl>
-                  <FormDescription>Não recebeu o código?</FormDescription>
-                  <FormMessage />
                 </FormItem>
               )}
             />
+            <div className="flex justify-center">
+              {counter > 0 ? (
+                <span className="text-sm text-gray-500">
+                  Você pode reenviar um novo código em{' '}
+                  <strong>{counter} segundos</strong>
+                </span>
+              ) : (
+                <Button type="button" variant="link" onClick={resendEmail}>
+                  Reenviar um novo código agora
+                </Button>
+              )}
+            </div>
             <SubmitButton
-              className="h-12 w-full"
+              className="h-12 w-48"
               isLoading={form.formState.isSubmitting}
             >
               Validar
