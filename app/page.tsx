@@ -1,9 +1,6 @@
 export default function Page() {
   return (
-    <output
-      role="status"
-      className="flex h-screen w-screen items-center justify-center"
-    >
+    <output className="flex h-screen w-screen items-center justify-center">
       <svg
         aria-hidden="true"
         className="inline h-12 w-12 animate-spin fill-red-600 text-gray-200 dark:text-gray-600"
