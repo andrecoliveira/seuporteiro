@@ -1,9 +1,11 @@
+type CNPJValue = string | number | number[]
+
 // Regex para validação de string no formato CNPJ
 export const regexCNPJ = /^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/
 
 // Método de validação
 // Referência: https://pt.wikipedia.org/wiki/Cadastro_Nacional_da_Pessoa_Jur%C3%ADdica
-export function validCNPJ(value: string | number | number[] = '') {
+export function validCNPJ(value: CNPJValue) {
   if (!value) return false
 
   // Aceita receber o valor como string, número ou array com todos os dígitos
@@ -49,7 +51,7 @@ export function validCNPJ(value: string | number | number[] = '') {
 }
 
 // Método de formatação
-export function formatCNPJ(value: string | number | number[] = '') {
+export function formatCNPJ(value: CNPJValue) {
   // Verifica se o valor é válido
   const valid = validCNPJ(value)
 
