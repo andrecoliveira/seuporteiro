@@ -58,7 +58,7 @@ const data = {
     },
     {
       name: 'Reservas',
-      url: '#',
+      url: '/painel/reservas',
       icon: NotepadText,
     },
     {

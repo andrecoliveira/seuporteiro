@@ -29,12 +29,12 @@ function PlanCard({
   isYearly,
   onSubscribe,
   isLoading,
-}: {
+}: Readonly<{
   plan: Plan
   isYearly: boolean
   onSubscribe: () => void
   isLoading: boolean
-}) {
+}>) {
   const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice
   const period = isYearly ? 'ano' : 'mês'
 
@@ -77,7 +77,7 @@ function PlanCard({
   )
 }
 
-export default function PricingTable({ plans }: Props) {
+export default function PricingTable({ plans }: Readonly<Props>) {
   const { user } = useUser()
   const [isYearly, setIsYearly] = useState(false)
   const [loadingPriceId, setLoadingPriceId] = useState<string | null>(null)

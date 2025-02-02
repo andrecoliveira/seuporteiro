@@ -58,17 +58,19 @@ export async function POST(req: Request) {
 
       case 'checkout.session.completed': {
         const session = data.object as Stripe.Checkout.Session
-        const { error } = await supabaseAdmin.from('subscriptions').insert([
-          {
-            status: session.payment_status,
-            user_id: session.metadata?.userId,
-            customer_id: session.customer as string,
-            customer_email: session.customer_email as string,
-            stripe_subscription_id: session.subscription,
-          },
-        ])
-        if (!error) {
-          console.log('Checkout session completed', session.customer_email)
+        if (session.payment_status === 'paid') {
+          const { error } = await supabaseAdmin.from('subscriptions').insert([
+            {
+              status: session.payment_status,
+              user_id: session.metadata?.userId,
+              customer_id: session.customer as string,
+              customer_email: session.customer_email as string,
+              stripe_subscription_id: session.subscription,
+            },
+          ])
+          if (!error) {
+            console.log('Checkout session completed', session.customer_email)
+          }
         }
         if (session.metadata?.userId) {
           await redis.set(

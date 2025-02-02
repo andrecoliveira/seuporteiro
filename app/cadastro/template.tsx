@@ -2,7 +2,11 @@ import Image from 'next/image'
 
 import { logotipo } from '@/images'
 
-export default function Template({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode
+}
+
+export default function Template(props: Readonly<Props>) {
   return (
     <div className="flex justify-center sm:min-h-screen">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -10,7 +14,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
           <div className="mb-2 mt-12 flex justify-center px-10 sm:mt-0">
             <Image src={logotipo} alt="Logo" width={300} priority />
           </div>
-          {children}
+          {props.children}
         </div>
         <div className="hidden content-center bg-red-layout px-24 lg:block">
           <h2 className="text-4xl font-bold text-white">

@@ -7,13 +7,11 @@ import { currentUser } from '@clerk/nextjs/server'
 
 import { APP_ROUTES } from '../constants'
 
-export default async function Page() {
-  const user = await currentUser()
-
-  const Greetings = () => (
+function Greetings({ firstName }: { firstName: string }) {
+  return (
     <div className="space-y-2 text-center">
       <h3 className="text-xl font-semibold">
-        Olá {user?.firstName}, obrigado por se inscrever!
+        Olá {firstName}, obrigado por se inscrever!
       </h3>
       <p className="text-gray-500">
         Estamos prontos para ajudá-lo a oferecer experiências incríveis aos seus
@@ -21,8 +19,10 @@ export default async function Page() {
       </p>
     </div>
   )
+}
 
-  const Steps = () => (
+function Steps() {
+  return (
     <div className="mt-4 space-y-6 rounded-lg bg-gray-100 p-8">
       <div className="flex gap-4">
         <div>
@@ -53,13 +53,17 @@ export default async function Page() {
       </div>
     </div>
   )
+}
+
+export default async function Page() {
+  const user = await currentUser()
 
   return (
     <div className="w-full rounded-lg bg-white p-10 shadow">
       <div className="flex flex-col items-center justify-center space-y-10">
         <Image src={logotipo} alt="Logo" width={200} />
         <Image src={enjoy} alt="Logo" width={200} />
-        <Greetings />
+        <Greetings firstName={user?.firstName || ''} />
       </div>
       <div className="mt-12">
         <h3 className="text-left text-lg font-semibold">Próximos passos</h3>

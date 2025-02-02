@@ -8,7 +8,7 @@ import { APP_ROUTES } from '@/app/constants'
 
 import { SignUpViewProps } from '../signUp.types'
 
-export default function BasicInformationPage(props: SignUpViewProps) {
+export default function BasicInformationPage(props: Readonly<SignUpViewProps>) {
   const {
     basicInformation: { form, onSubmit },
   } = props

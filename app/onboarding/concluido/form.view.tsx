@@ -5,7 +5,7 @@ import useFormModel from './form.model'
 
 export type FormProps = ReturnType<typeof useFormModel>
 
-export default function Form(props: FormProps) {
+export default function Form(props: Readonly<FormProps>) {
   const { form, handleOnSubmit } = props
   return (
     <div>

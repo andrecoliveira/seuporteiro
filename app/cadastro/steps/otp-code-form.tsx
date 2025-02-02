@@ -11,7 +11,7 @@ import {
 
 import { SignUpViewProps } from '../signUp.types'
 
-export default function OtpCodeForm(props: SignUpViewProps) {
+export default function OtpCodeForm(props: Readonly<SignUpViewProps>) {
   const {
     otpCode: { form, onSubmit, resendEmail },
     counter,
