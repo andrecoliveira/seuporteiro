@@ -19,15 +19,15 @@ import {
 } from '@/components/ui/sidebar'
 import { ChevronsUpDown, Plus } from 'lucide-react'
 
-export function TeamSwitcher({
-  teams,
-}: {
+interface Props {
   teams: {
     name: string
     logo: React.ElementType
     plan: string
   }[]
-}) {
+}
+
+export function TeamSwitcher({ teams }: Readonly<Props>) {
   const { isMobile } = useSidebar()
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
 

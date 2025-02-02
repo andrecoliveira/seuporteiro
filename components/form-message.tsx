@@ -9,7 +9,7 @@ interface FormMessageProps {
   translations: Record<string, { title: string; description: string }>
 }
 
-export function FormMessage({ translations }: FormMessageProps) {
+export function FormMessage({ translations }: Readonly<FormMessageProps>) {
   const searchParams = useSearchParams()
   const success = searchParams.get('success')
   const error = searchParams.get('error')

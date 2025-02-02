@@ -7,7 +7,7 @@ import { currentUser } from '@clerk/nextjs/server'
 
 import { APP_ROUTES } from '../constants'
 
-function Greetings({ firstName }: { firstName: string }) {
+function Greetings({ firstName }: Readonly<{ firstName: string }>) {
   return (
     <div className="space-y-2 text-center">
       <h3 className="text-xl font-semibold">

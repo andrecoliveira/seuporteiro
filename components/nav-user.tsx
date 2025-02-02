@@ -14,8 +14,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { SignOutButton } from '@clerk/nextjs'
-import { useUser } from '@clerk/nextjs'
+import { SignOutButton, useUser } from '@clerk/nextjs'
 import {
   BadgeCheck,
   Bell,

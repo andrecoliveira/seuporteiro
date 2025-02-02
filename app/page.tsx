@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <div
+    <output
       role="status"
       className="flex h-screen w-screen items-center justify-center"
     >
@@ -20,6 +20,6 @@ export default function Page() {
           fill="currentFill"
         />
       </svg>
-    </div>
+    </output>
   )
 }

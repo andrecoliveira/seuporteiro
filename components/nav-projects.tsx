@@ -9,15 +9,15 @@ import {
 } from '@/components/ui/sidebar'
 import { type LucideIcon } from 'lucide-react'
 
-export function NavProjects({
-  projects,
-}: {
+interface Props {
   projects: {
     name: string
     url: string
     icon: LucideIcon
   }[]
-}) {
+}
+
+export function NavProjects({ projects }: Readonly<Props>) {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Menu</SidebarGroupLabel>

@@ -49,7 +49,9 @@ function PageHeader() {
 /**
  * Página principal encapsulando sidebar e conteúdo.
  */
-export default function Page({ children }: { children: React.ReactNode }) {
+export default function Page({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <SidebarProvider>
       <AppSidebar />

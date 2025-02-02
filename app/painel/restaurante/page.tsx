@@ -2,6 +2,20 @@ import { Button } from '@/components/ui'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SquarePen, SquareArrowOutUpRight } from 'lucide-react'
 
+function ListItems({
+  label,
+  value,
+}: Readonly<{ label: string; value: string }>) {
+  return (
+    <div className="md:items-top md:items-top flex flex-col space-y-2 md:flex-row md:space-y-0">
+      <span className="text-sm text-gray-500 md:mb-0 md:basis-1/4">
+        {label}
+      </span>
+      <span className="text-sm md:basis-3/4">{value}</span>
+    </div>
+  )
+}
+
 export default function RestaurantPage() {
   const account = [
     { label: 'Nome da loja', value: 'Andre Cuccina' },
@@ -13,17 +27,6 @@ export default function RestaurantPage() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tincidunt justo est, et pretium turpis scelerisque a. Cras fermentum tortor sed tincidunt accumsan. Nunc commodo lorem a nunc rutrum auctor. Donec et commodo urna. Vivamus accumsan elit velit, dignissim varius leo placerat malesuada. Nullam ultrices pellentesque auctor. Suspendisse vestibulum auctor orci, non luctus tortor rutrum ac. Integer non pellentesque lorem, id aliquet erat. Proin egestas velit ex, vitae lobortis nisl imperdiet et. Integer et ultrices turpis, sed scelerisque magna.',
     },
   ]
-
-  function ListItems({ label, value }: { label: string; value: string }) {
-    return (
-      <div className="md:items-top md:items-top flex flex-col space-y-2 md:flex-row md:space-y-0">
-        <span className="text-sm text-gray-500 md:mb-0 md:basis-1/4">
-          {label}
-        </span>
-        <span className="text-sm md:basis-3/4">{value}</span>
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-6">
