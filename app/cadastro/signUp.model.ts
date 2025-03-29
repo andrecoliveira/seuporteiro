@@ -59,7 +59,7 @@ export default function useSignUpModel() {
       })
       setStep(Steps.OTPCodeValidation)
     } catch (error) {
-      console.log(error instanceof Error ? error.message : 'Unknown error')
+      console.error(error instanceof Error ? error.message : 'Unknown error')
     }
   }
 
