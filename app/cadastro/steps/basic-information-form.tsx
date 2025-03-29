@@ -22,7 +22,7 @@ export default function BasicInformationPage(props: Readonly<SignUpViewProps>) {
           Crie sua conta
         </h4>
         <p className="text-sm text-gray-500">
-          Forneça as informações iniciais para começarmos
+          Forneça suas informações pessoais para começarmos
         </p>
       </div>
       <div className="mt-4 space-y-4">

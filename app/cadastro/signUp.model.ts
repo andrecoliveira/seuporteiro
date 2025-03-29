@@ -8,6 +8,8 @@ import { useSignUp } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
+import { messages, Messages } from '@/utils/messages'
+
 import { APP_ROUTES } from '../constants'
 
 import { basicInformationSchema, otpCodeSchema, Steps } from './signUp.schema'
@@ -46,18 +48,30 @@ export default function useSignUpModel() {
 
   const basicInformationSubmit = async () => {
     const values = basicInformationForm.getValues()
-    await signUp?.create({ ...values })
-    await signUp?.prepareEmailAddressVerification({
-      strategy: 'email_code',
-    })
-    setStep(Steps.OTPCodeValidation)
+    try {
+      await signUp?.create({ ...values }).catch((error) => {
+        error.errors.map(({ code }: { code: Messages }) => {
+          toast.error(messages[code])
+        })
+      })
+      await signUp?.prepareEmailAddressVerification({
+        strategy: 'email_code',
+      })
+      setStep(Steps.OTPCodeValidation)
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'Unknown error')
+    }
   }
 
   const otpCodeSubmit = async () => {
     try {
-      await signUp?.attemptEmailAddressVerification({
-        code: otpCodeForm.watch('otpCode'),
-      })
+      await signUp
+        ?.attemptEmailAddressVerification({
+          code: otpCodeForm.watch('otpCode'),
+        })
+        .catch((error) => {
+          toast.error(messages[error.errors[0].code as Messages])
+        })
       const userId = signUp?.createdUserId
       const sessionId = signUp?.createdSessionId
       if (userId && sessionId) {

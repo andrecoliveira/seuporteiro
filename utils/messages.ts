@@ -1,6 +1,7 @@
 export const messages = {
   form_identifier_not_found:
     'E-mail não encontrado. Verifique se digitou corretamente',
+  form_identifier_exists: 'E-mail já cadastrado',
   form_param_format_invalid:
     'O formato informado não é válido. Verifique e tente novamente',
   form_code_incorrect: 'Código incorreto',
