@@ -26,7 +26,7 @@ function Steps() {
     <div className="mt-4 space-y-6 rounded-lg bg-gray-100 p-8">
       <div className="flex gap-4">
         <div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold text-red-layout">
+          <div className="text-primary-color flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold">
             1
           </div>
         </div>
@@ -40,7 +40,7 @@ function Steps() {
 
       <div className="flex gap-4">
         <div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold text-red-layout">
+          <div className="text-primary-color flex h-8 w-8 items-center justify-center rounded-full bg-white font-bold">
             2
           </div>
         </div>

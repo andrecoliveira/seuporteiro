@@ -54,7 +54,7 @@ export default function Page(props: RecoveryPasswordProps) {
           <div className="flex justify-center">
             <Link
               href={APP_ROUTES.public.signIn}
-              className="text-red-layout transition-colors hover:text-black"
+              className="text-primary-color transition-colors hover:text-black"
             >
               <Label className="hover:cursor-pointer">
                 Retornar para entrar

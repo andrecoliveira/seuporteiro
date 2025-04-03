@@ -17,7 +17,7 @@ interface Props {
 function Logo() {
   return (
     <div className="mb-8 mt-10 flex justify-center sm:mt-0">
-      <Image src={logotipo} alt="Logo" width={300} priority />
+      <Image src={logotipo} alt="Logo" width={250} priority />
     </div>
   )
 }
@@ -48,7 +48,7 @@ function SignUpPrompt() {
         Não possui conta?{' '}
         <Link
           href={APP_ROUTES.public.signUp}
-          className="font-bold text-red-layout transition-colors hover:text-black"
+          className="text-primary-color font-bold transition-colors hover:text-black"
         >
           Criar uma conta
         </Link>

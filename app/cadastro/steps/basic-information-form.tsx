@@ -84,7 +84,7 @@ export default function BasicInformationPage(props: Readonly<SignUpViewProps>) {
           Já tem uma conta?{' '}
           <Link
             href={APP_ROUTES.public.signIn}
-            className="font-bold text-red-layout transition-colors hover:text-black"
+            className="text-primary-color font-bold transition-colors hover:text-black"
           >
             Entrar
           </Link>
