@@ -26,7 +26,7 @@ export function NavProjects({ projects }: Readonly<Props>) {
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon color="#DE4D4D" />
+                <item.icon color="#395BB0" />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>

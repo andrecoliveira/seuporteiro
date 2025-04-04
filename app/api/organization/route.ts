@@ -7,7 +7,6 @@ import { z } from 'zod'
 
 const schema = z.object({
   name: z.string(),
-  slug: z.string(),
   userId: z.string(),
 })
 
@@ -20,12 +19,11 @@ export async function POST(req: Request) {
         status: 400,
       })
     }
-    const { name, slug, userId } = schema.parse(query)
+    const { name, userId } = schema.parse(query)
 
     const client = await clerkClient()
     const response = await client.organizations.createOrganization({
       name,
-      slug,
       publicMetadata: {
         userId,
       },

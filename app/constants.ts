@@ -6,7 +6,7 @@ export const APP_ROUTES = {
       plans: '/onboarding/planos',
       accomplished: '/onboarding/concluido',
     },
-    restaurant: '/painel/restaurante',
+    polls: '/painel/enquetes',
     reservas: '/reservas',
   },
   public: {

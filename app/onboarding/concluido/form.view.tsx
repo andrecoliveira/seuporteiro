@@ -11,31 +11,17 @@ export default function Form(props: Readonly<FormProps>) {
     <div>
       <h3 className="text-left text-lg font-semibold">Crie sua organização</h3>
       <form
-        className="mt-4 space-y-3"
+        className="mt-4 space-y-8"
         onSubmit={form.handleSubmit(handleOnSubmit)}
       >
         <div className="space-y-2">
           <Label htmlFor="name">Nome</Label>
           <Input
             {...form.register('name')}
-            placeholder="Ex: Gregorio Cuccina"
+            placeholder="Digite o nome do condomínio"
             className="h-14"
             required
           />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="slug">Slug</Label>
-          <Input
-            {...form.register('slug')}
-            placeholder="Ex: gregorio-cuccina"
-            className="h-14"
-            required
-          />
-          <div className="text-sm font-light text-gray-500">
-            O slug é o identificador único da sua organização na URL. Ele deve
-            ser composto por letras minúsculas, números e hífens, sem espaços,
-            acentos ou caracteres especiais.
-          </div>
         </div>
         <SubmitButton
           isLoading={form.formState.isSubmitting}

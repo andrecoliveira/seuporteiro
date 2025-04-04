@@ -13,17 +13,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar'
 import { logotipo } from '@/images'
-import {
-  LifeBuoy,
-  BookOpen,
-  Store,
-  NotepadText,
-  Calendar,
-  MessageCircleMore,
-  PieChart,
-  Send,
-  House,
-} from 'lucide-react'
+import { LifeBuoy, NotepadText, Send, House, ChartPie } from 'lucide-react'
 
 import { APP_ROUTES } from '@/app/constants'
 
@@ -47,34 +37,14 @@ const data = {
       icon: House,
     },
     {
-      name: 'Restaurante',
-      url: APP_ROUTES.private.restaurant,
-      icon: Store,
-    },
-    {
-      name: 'Cardápio',
-      url: '#',
-      icon: BookOpen,
+      name: 'Enquetes',
+      url: APP_ROUTES.private.polls,
+      icon: ChartPie,
     },
     {
       name: 'Reservas',
       url: '/painel/reservas',
       icon: NotepadText,
-    },
-    {
-      name: 'Agendamentos',
-      url: '#',
-      icon: Calendar,
-    },
-    {
-      name: 'Mensagens',
-      url: '#',
-      icon: MessageCircleMore,
-    },
-    {
-      name: 'Análises',
-      url: '#',
-      icon: PieChart,
     },
   ],
 }
@@ -84,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar variant="inset" {...props}>
       <SidebarHeader className="mb-4 mt-2 flex items-center">
         <a href="#">
-          <Image src={logotipo} alt="Logo" width={200} priority />
+          <Image src={logotipo} alt="Logo" width={120} priority />
         </a>
       </SidebarHeader>
       <SidebarContent>

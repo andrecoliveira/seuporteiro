@@ -10,12 +10,6 @@ import { APP_ROUTES } from '@/app/constants'
 
 export const formSchema = z.object({
   name: z.string(),
-  slug: z
-    .string()
-    .regex(
-      /^[a-z0-9-]+$/,
-      'O slug deve conter apenas letras minúsculas, números e hífens, sem espaços, acentos ou caracteres especiais.',
-    ),
 })
 
 export default function useFormModel() {
@@ -24,7 +18,6 @@ export default function useFormModel() {
   const form = useForm({
     defaultValues: {
       name: '',
-      slug: '',
     },
     resolver: zodResolver(formSchema),
   })
@@ -38,7 +31,6 @@ export default function useFormModel() {
         },
         body: JSON.stringify({
           name: form.watch('name'),
-          slug: form.watch('slug'),
           userId: user?.id,
         }),
       })
