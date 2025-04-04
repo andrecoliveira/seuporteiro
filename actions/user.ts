@@ -1,8 +1,8 @@
-import { supabaseAdmin } from '@/lib/supabaseClient'
+import { supabaseClient } from '@/lib/supabaseClient'
 import { User } from '@/types/user'
 
 export async function createUserByWebhook(user: User) {
-  const { error } = await supabaseAdmin.from('users').insert([
+  const { error } = await supabaseClient.from('users').insert([
     {
       email: user.email_addresses[0].email_address,
       user_id: user.id,
