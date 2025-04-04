@@ -69,7 +69,7 @@ function PlanCard({
           className="mb-2 flex items-center text-sm text-gray-500"
           key={feature.name}
         >
-          <CircleCheck color="#DE4D4D" className="mr-1 h-4" />
+          <CircleCheck color="#395BB0" className="mr-1 h-4" />
           {feature.name}
         </p>
       ))}

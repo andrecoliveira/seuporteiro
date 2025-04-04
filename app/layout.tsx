@@ -33,6 +33,12 @@ export default function RootLayout({
             href="/apple-touch-icon.png"
             sizes="180x180"
           />
+          <link
+            rel="icon"
+            href="/icon?<generated>"
+            type="image/<generated>"
+            sizes="<generated>"
+          />
         </head>
         <body className={inter.className}>
           {children}

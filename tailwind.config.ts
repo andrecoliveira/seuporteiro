@@ -19,7 +19,7 @@ const config: Config = {
         'caret-blink': 'caret-blink 1.25s ease-out infinite',
       },
       colors: {
-        'red-layout': '#DE4D4D',
+        'primary-color': '#395BB0',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

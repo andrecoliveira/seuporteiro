@@ -16,7 +16,7 @@ export default function Template(props: Readonly<Props>) {
           </div>
           {props.children}
         </div>
-        <div className="hidden content-center bg-primary-color px-24 lg:block">
+        <div className="bg-primary-color hidden content-center px-24 lg:block">
           <h2 className="text-4xl font-bold text-white">
             Simplifique a gestão do seu condomínio
           </h2>
