@@ -13,8 +13,10 @@ export async function POST(req: Request) {
 
   if (eventType === 'user.created') {
     const client = userAdapter(payload?.data)
+    console.log('payload', payload?.data)
     try {
-      await createUserByWebhook(payload?.data)
+      const { error, data } = await createUserByWebhook(payload?.data)
+      console.log({ error, data })
       console.log(`${client.email} - User created successfully`)
       return NextResponse.json(
         { message: 'User created successfully' },
