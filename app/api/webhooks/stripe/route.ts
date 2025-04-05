@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import stripe from '@/lib/stripe'
-import { supabaseAdmin } from '@/lib/supabaseClient'
+import { supabaseClient } from '@/lib/supabaseClient'
 import { redis } from '@/lib/upstash'
 import { Step } from '@/types/steps'
 import { clerkClient } from '@clerk/nextjs/server'
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       case 'checkout.session.completed': {
         const session = data.object as Stripe.Checkout.Session
         if (session.payment_status === 'paid') {
-          const { error } = await supabaseAdmin.from('subscriptions').insert([
+          const { error } = await supabaseClient.from('subscriptions').insert([
             {
               status: session.payment_status,
               user_id: session.metadata?.userId,
